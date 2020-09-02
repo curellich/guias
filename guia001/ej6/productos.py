@@ -18,13 +18,4 @@ catalogo = [
     {'codigo': 7341, 'desc': "Salsa de Tomate 500 gs", 'precio': 47.90}
 ]
 
-def buscar (catalogo,numero):
-    for dicc in catalogo:
-        if dicc['codigo'] == numero:
-            break
-    else:
-        dicc = None
 
-    print(dicc)
-
-accion = buscar (catalogo, 561)
