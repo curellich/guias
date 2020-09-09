@@ -11,12 +11,11 @@ a. Presentar un menú permitiendo al usuario elegir una de las siguientes opcion
     3) Ingresar nuevo producto al catalogo
     3) Salir
 """
-import os
 def menu():
     opcion = ''
     while not (opcion >= '1' and opcion <= '5'):
-        os.system('clear')  # Con esto limpio la consola para mostrar solo el menu
         print("""
+        ------MENU PRINCIPAL-------
         Caja de Supermercado
         1) Buscar producto
         2) Mostrar lista de productos
@@ -28,7 +27,7 @@ def menu():
         if not (opcion >= '1' and opcion <= '5'):
             print('!!!La opción ingresada no es valida¡¡¡')
             opcion = (input('Por favor, seleccione una opción: '))
-            print('-' * 50)
+            print('-' * 80)
     return opcion
 
 
