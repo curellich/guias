@@ -8,12 +8,13 @@ Para una mejor legibilidad se pide que al imprimirlo se muestren de esa forma.
 """
 
 from ej2.mis_funciones import generar_carton
+from ej2.mis_funciones import grabar_carton
 
 
 # Funcion para imprimir los numeros en paquetes de 5
 def imprimir_carton(lista_num):
     """
-    :param lista_num: Es la liosta de numeros aleatorios 
+    :param lista_num: Es la lista de numeros aleatorios
     """
     contador = 0
     for i in lista_num:
@@ -25,7 +26,41 @@ def imprimir_carton(lista_num):
         contador += 1
     return []
 
+def menu():
+    controlador = 0
 
-lista = generar_carton()
-imprimir_carton(lista)
+    while controlador != 3:
+        print(""" -----LOTERIA "BINGO-------"
+            1)Generar e imprimir un carton
+            2)Generar y grabar un carton
+            3)Salir
+            """)
+        while True:
+            try:
+                entrada = int(input('Ingrese un opcion: '))
+                break
+            except ValueError as e:
+                print("La entrada no es valida: {}".format(e))
+
+        if entrada == 1:
+            imprimir_carton(generar_carton())
+            print('\n'*2)
+        elif entrada == 2:
+            nombre = input('Ingrese le nombre del archivo para guardar el carton: ')
+            grabar_carton(generar_carton(),nombre)
+        else:
+            break
+
+menu()
+
+
+
+
+
+
+
+
+
+
+
 

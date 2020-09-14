@@ -33,27 +33,25 @@ e. Con la opción de agregar nuevo producto al catalogo,debe solicitarle los dat
    imprimiendo toda la información del mismo y utilizando la función format para incluir cada campo de los productos
 """
 
+from ej6.menu import menu
+from ej6.buscar import buscar
+from ej6.productos import catalogo
+from ej6.listar_productos import listar_productos
+from ej6.factura import facturar
+from ej6.agregar_producto import agregar_producto
 
-from ejercicio006.ej6 import buscar
-from ejercicio006.ej6.productos import catalogo
-from ejercicio006.ej6 import listar_productos
-
-from ejercicio006.ej6 import menu
-
-#Programa principal
-opcion =''
+# Programa principal
+opcion = ''
 while opcion != '5':
     opcion = str(menu())
     if opcion == '1':
         buscar(catalogo, int(input('Ingrese el numero del producto: ')))
     elif opcion == '2':
         listar_productos(catalogo)
-
-
-
-
-
-
-
-
+    elif opcion == '3':
+        facturar(catalogo)
+    elif opcion == '4':
+        agregar_producto(catalogo)
+    else:
+        print("Gracias por utilizar el programa")
 

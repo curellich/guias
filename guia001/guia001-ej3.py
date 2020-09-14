@@ -4,7 +4,7 @@
 Tip: función input y analizar que tipo de variable es con type
 """
 
-from j01.fechas import crear_mes
+from j01 import crear_mes
 
 nombre= str(input('Ingrese el nombre del mes: '))
 abreviatura=str(input('Ingrese la abreviatura: '))
