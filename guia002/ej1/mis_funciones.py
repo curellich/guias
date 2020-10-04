@@ -27,5 +27,5 @@ def cuenta_caracteres(nombre):
 
     fichero.close()
 
-    return dicc
+    return diccw
 

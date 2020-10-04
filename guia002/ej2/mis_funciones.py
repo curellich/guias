@@ -8,7 +8,7 @@ def generar_carton():
     return lista
 
 
-def grabar_carton(lista_numeros, nombre):
+def grabar_carton(lista_cnumeros, nombre):
     fichero = open(f'{nombre}.txt', 'w')
     contador = 0
     cadena = ""
