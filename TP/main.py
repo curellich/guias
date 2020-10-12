@@ -26,11 +26,10 @@ if desicion == "Juego Nuevo":
 
     #Se muestran las cartas de la mesa
     interfaces.cartel_cartas_en_la_mesa()
-    interfaces.cartel_cartas_en_la_mesa()
     interfaces.mostrar_cartas_mesa(config_partida)
 else:
     # Se carga una partida guardada
-    nombre_archivo =interfaces.menu_cargar_partida()
+    nombre_archivo = interfaces.menu_cargar_partida()
     config_partida = configuracion.cargar_partida_de_archivo(nombre_archivo)
 
     # Se prepara el/los masos para jugar
@@ -44,7 +43,6 @@ else:
     cartas.carta_escondida_banca(config_partida)
 
     # Se muestran las cartas de la mesa
-    interfaces.cartel_cartas_en_la_mesa()
     interfaces.cartel_cartas_en_la_mesa()
     interfaces.mostrar_cartas_mesa(config_partida)
 

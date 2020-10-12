@@ -5,6 +5,7 @@ from blackjack.logica import cpu_prudente
 from blackjack.logica import cpu_inteligente
 from blackjack.cartas import formato_carta
 from blackjack.logica import analisis_continuidad_juego
+from blackjack.configuracion import comprobacion_fichero
 
 
 # BACKEND *
@@ -51,27 +52,34 @@ def menu_inicial():
     Funcion que muestra un menu y permite decidir si se inicia un juego nuevo o se carga una partida
     :return: int con la opcion seleccionada
     """
+    indicador = comprobacion_fichero()
 
-    print("Seleccione la opcion deseada: ")
-    print("""
-    1- Cargar Partida
-    2- Juego Nuevo
-    """)
-
-    while True:
-        try:
-            opcion = int(input('Opción (1-2): '))
-
-            if opcion != 1 and opcion != 2:
-                raise ValueError
-            break
-        except:
-            print(f"La opción no es válida. Intente nuevamente")
-
-    if opcion == 1:
-        resultado = "Cargar Partida"
-    else:
+    if indicador == "VACIO":
+        # no existen partidas grabadas
+        print("No existen partidas anteriores!!! \n")
         resultado = "Juego Nuevo"
+    else:
+        # si existe partidas grabadas
+        print("Seleccione la opcion deseada: ")
+        print("""
+                1- Cargar Partida
+                2- Juego Nuevo
+                """)
+
+        while True:
+            try:
+                opcion = int(input('Opción (1-2): '))
+
+                if opcion != 1 and opcion != 2:
+                    raise ValueError
+                break
+            except:
+                print(f"La opción no es válida. Intente nuevamente")
+
+        if opcion == 1:
+            resultado = "Cargar Partida"
+        else:
+            resultado = "Juego Nuevo"
 
     return resultado
 
@@ -102,8 +110,8 @@ def menu_cargar_partida():
             break
         except:
             print(f"La opción no es válida. Intente nuevamente")
-
-    return str(lista[opcion - 1])
+    nombre_fichero = str(lista[opcion - 1]).rstrip()
+    return nombre_fichero
 
 
 # FRONTEND *

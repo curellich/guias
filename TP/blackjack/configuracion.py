@@ -151,10 +151,11 @@ def crear_archivo_partida(config_partida):
 
     return nombre_nomalizado
 
+
 # BACKEND
 def guardar_nombre_en_archivo(nombre_de_archivo):
     fichero = open("./blackjack/partidas.txt", "a")
-    fichero.write(nombre_de_archivo+"\n")
+    fichero.write(nombre_de_archivo + "\n")
     fichero.close()
 
 
@@ -165,7 +166,8 @@ def cargar_partida_de_archivo(nombre_del_archivo):
     :param nombre_del_archivo: str el nombre del archivo a cargar
     :return: list con la configuracion del juego.
     """
-    fichero = open(nombre_del_archivo, 'r')
+    nombre_del_fichero = "./blackjack/" + nombre_del_archivo
+    fichero = open(nombre_del_fichero, 'r')
     conf_partida = []
     linea = fichero.readline()
 
@@ -179,21 +181,33 @@ def cargar_partida_de_archivo(nombre_del_archivo):
 
 
 # BACKEND *
+def comprobacion_fichero():
+    """
+    Funcion para saber si existen partidas para cargar
+    :return: str "VACIO" si esta vacio. Sino "CON CONTENIDO"
+    """
+    # compruebo si existen partidas para cargar
+    fichero = open("./blackjack/partidas.txt", 'r')
+    contenido = fichero.read()
+    if contenido == '':
+        indicador = "VACIO"
+    else:
+        indicador = "CON CONTENIDO"
+
+    return indicador
+
+
+# BACKEND *
 def limpiar_cartas(config_partida):
     """
     Funcion que elimina todas las cartas de los jugadores
     :param config_partida: list con la configuracion inicial del juego
-    :return:
+    :return: None
     """
 
     for jugadores in config_partida:
-        jugadores['cartas'].clear()
+        jugadores['cartas'] = []
+
+    return None
 
 
-"""config_partida = config_partida_inicial(config_juego())
-# Se prepara el/los masos para jugar
-maso_de_juego = cartas.maso_de_juego(config_partida)
-barajar(config_partida, maso_de_juego)
-carta_escondida_banca(config_partida)
-guardar_nombre_en_archivo(crear_archivo_partida(config_partida))
-"""
