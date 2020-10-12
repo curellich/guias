@@ -1,7 +1,7 @@
 import random
 
 
-# BACKEND
+# BACKEND *
 def crear_baraja_tipo():
     """
     La funcion crea la baraja francesa
@@ -22,7 +22,7 @@ def crear_baraja_tipo():
     return baraja_tipo
 
 
-# BACKEND
+# BACKEND *
 def constr_maso(num_barajas, baraja_tipo):
     """
     La funcion incrementa en n veces la cantidad de barajas dependiendo de la config del juego
@@ -39,7 +39,7 @@ def constr_maso(num_barajas, baraja_tipo):
     return maso
 
 
-# BACKEND
+# BACKEND *
 def mezclar_maso(maso):
     """
     Funcion para mezclar las cartas del maso
@@ -49,24 +49,33 @@ def mezclar_maso(maso):
     random.shuffle(maso, random.random)
 
 
-# BACKEND
+# BACKEND *
+def maso_de_juego(config_partida):
+    """
+    Funcion que retorna un maso, mezclado con las cantidades de naipes configuradas
+    :return: list maso listo para jugar
+    """
+    cant_barajas = config_partida[0]['cant_barajas']  # obtengo la cant de barajas de la conf
+    maso = constr_maso(cant_barajas, crear_baraja_tipo())  # construyo el maso
+    mezclar_maso(maso)  # mezclo el maso
+    return maso
+
+
+# BACKEND *
 def sacar_carta(maso_mezclado):
     """
     Siempre se saca una carta de arriba del maso
     :param maso_mezclado: es el maso de juego ya barajado
     :return: dict una carta
     """
-    return maso_mezclado.pop(0)
+    return maso_mezclado.pop()
 
-
-# BACKEND
-def barajar(conf_partida):
+# BACKEND *
+def maso_de_juego(conf_partida):
     """
-    Reparte dos cartas a cada jugador y a la banca, y las guarda en la conf_partida
-    :param conf_partida: list con la conf_juego y conf_jugador para todos los jugadores
-    :return: None
+    Este es el maso con el que se va a barajar, y se va a jugar UNA ronda
+    :return: list con el maso
     """
-
     cant_barajas = conf_partida[0]['cant_barajas']
 
     # construyo el maso mezclado
@@ -74,6 +83,47 @@ def barajar(conf_partida):
     maso_nuevo = constr_maso(cant_barajas, baraja_tipo)
     mezclar_maso(maso_nuevo)
 
+    return maso_nuevo
+
+# BACKEND *
+def barajar(conf_partida, maso_nuevo):
+    """
+    Reparte dos cartas a cada jugador y a la banca, y las guarda en la conf_partida
+    :param conf_partida: list con la conf_juego y conf_jugador para todos los jugadores
+    :return: None
+    """
+
     # reparto dos cartas para cada jugador y la banca
     for i in conf_partida:
         i['cartas'] = [sacar_carta(maso_nuevo), sacar_carta(maso_nuevo)]
+
+
+# BACKEND *
+def carta_escondida_banca(config_partida):
+    """
+    Funcion que quita la segunda carta de la banca
+    :param config_partida: list con la configuracion del juego.
+    :return: dict con la carta para retirada de las cartas de la banca
+    """
+
+    carta_escondida = config_partida[0]['cartas'].pop()
+
+    return carta_escondida
+
+# BACKEND *
+def formato_carta(carta):
+    """
+    Funcion que asigna el simbolos utf-8 a cada palo de cada carta
+    :param carta: dict carta con el par valor, palo
+    :return: dict cons las cartas
+    """
+    if carta['palo'] == "pica":
+        carta['palo'] = "♠"
+    elif carta['palo'] == "trebol":
+        carta['palo'] = "♣"
+    elif carta['palo'] == "diamante":
+        carta['palo'] = "♦"
+    else:
+        carta['palo'] = "♥"
+
+    return carta

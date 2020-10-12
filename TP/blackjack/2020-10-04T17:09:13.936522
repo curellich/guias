@@ -1,3 +1,0 @@
-{'cant_jugadores': 2, 'cant_barajas': 1, 'modo_juego': 'FACIL', 'juego_banca': 'AGRESIVA', 'cartas': None}
-{'numero': 1, 'nombre': 'JONATHAN', 'cpu': 'HUMANO', 'estado': None, 'saldo_incial': 2000, 'saldo_actual': None, 'posicion': None, 'cartas': None}
-{'numero': 2, 'nombre': 'GONZALO', 'cpu': 'ARRIESGADA', 'estado': None, 'saldo_incial': 2000, 'saldo_actual': None, 'posicion': None, 'cartas': None}

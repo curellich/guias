@@ -1,5 +1,8 @@
 from datetime import datetime
 from blackjack.constantes import SALDO_INCIAL, CANT_MAX_JUGADORES, CANT_MAX_BARAJAS
+from blackjack.cartas import barajar
+from blackjack.cartas import carta_escondida_banca
+from blackjack import cartas
 import ast
 
 
@@ -9,12 +12,13 @@ def config_juego():
     Funcion para que el usuario configure el juego, cant jugadores, barajas y modo de juego, juego de la banca.
     :return: dict con la configuracion del modo de juego.
     """
-    conf_juego = {'cant_jugadores': None, 'cant_barajas': None, 'modo_juego': None, 'juego_banca': None, 'cartas': None}
+    conf_juego = {'nombre': "BANCA", 'cant_jugadores': None, 'cant_barajas': None, 'modo_juego': None,
+                  'juego_banca': None, 'estado': None, 'saldo': 1000000, 'cartas': None}
 
     # El usuario ingresa por teclado la cantidad de jugadores
     while True:
         try:
-            cant_jugadores = int(input('Ingrese la cantidad de jugadores: '))
+            cant_jugadores = int(input(f'Ingrese la cantidad de jugadores (1 - {CANT_MAX_JUGADORES}): '))
             if cant_jugadores < 1 or cant_jugadores > CANT_MAX_JUGADORES:
                 raise ValueError()
             break
@@ -24,7 +28,7 @@ def config_juego():
     # El usuario ingresa por teclado la cantidad de barajas
     while True:
         try:
-            cant_barajas = int(input('Ingrese la cantidad de barajas: '))
+            cant_barajas = int(input(f'Ingrese la cantidad de barajas (1 - {CANT_MAX_BARAJAS}): '))
             if cant_barajas < 1 or cant_barajas > CANT_MAX_BARAJAS:
                 raise ValueError()
             break
@@ -60,7 +64,7 @@ def config_juego():
         conf_juego['modo_juego'] = "dificil".upper()
 
     if modo_juego == 1:
-        conf_juego['juego_banca'] = "agresiva".upper()
+        conf_juego['juego_banca'] = "arriesgado".upper()
     elif modo_juego == 2:
         conf_juego['juego_banca'] = "prudente".upper()
     else:
@@ -76,8 +80,7 @@ def config_jugador():
     :return: dict con la configuracion del jugador
     """
     # Este es el diccionario tipo que contiene la informacion de un jugador
-    conf_jugador = {'numero': None, 'nombre': None, 'cpu': None, 'estado': None, 'saldo_incial': SALDO_INCIAL,
-                    'saldo_actual': None,
+    conf_jugador = {'numero': None, 'nombre': None, 'cpu': None, 'estado': "EN JUEGO", 'saldo': SALDO_INCIAL,
                     'posicion': None, 'cartas': None}
 
     # Se ingresa el nombre del jugador
@@ -86,19 +89,22 @@ def config_jugador():
     # Se ingrese el modo de juego del jugador
     while True:
         try:
-            cpu = int(input('Ingrese el modo de juego: 1- CPU-Arriesgado, 2- CPU-Prudente, 3- Humano: '))
-            if cpu < 1 or cpu > 3:
+            cpu = int(
+                input('Ingrese el modo de juego: 1- CPU-Arriesgado, 2- CPU-Prudente, 3- Humano, 4- Inteligente: '))
+            if cpu < 1 or cpu > 4:
                 raise ValueError()
             break
         except:
-            print('El numero admitito va desde 1 hasta 3')
+            print('El numero admitito va desde 1 hasta 4')
 
     if cpu == 1:
-        conf_jugador['cpu'] = "arriesgada".upper()
+        conf_jugador['cpu'] = "arriesgado".upper()
     elif cpu == 2:
         conf_jugador['cpu'] = "prudente".upper()
     elif cpu == 3:
         conf_jugador['cpu'] = "humano".upper()
+    elif cpu == 4:
+        conf_jugador['cpu'] = "inteligente".upper()
 
     return conf_jugador
 
@@ -111,7 +117,7 @@ def config_partida_inicial(config_juego):
     :return: list con la configuracion del partida
     """
     conf_partida = []
-    cant_jugadores = config_juego.get('cant_jugadores')
+    cant_jugadores = config_juego['cant_jugadores']
 
     # La primera linea de la lista siempre es el diccionario de la configuracion del juego
     conf_partida.append(config_juego)
@@ -125,7 +131,7 @@ def config_partida_inicial(config_juego):
     return conf_partida
 
 
-# BACKEND
+# BACKEND *
 def crear_archivo_partida(config_partida):
     """
     Convierte cada elemento de la lista a str y crea el archivo de la configuracion inicial de la partida
@@ -136,7 +142,7 @@ def crear_archivo_partida(config_partida):
     nombre_fichero = datetime.now()
     nombre_nomalizado = "%s" % nombre_fichero.isoformat()
 
-    fichero = open(nombre_nomalizado, 'w')
+    fichero = open(f"./blackjack/{nombre_nomalizado}", 'w')
 
     for i in config_partida:
         fichero.write(str(i) + "\n")
@@ -145,8 +151,14 @@ def crear_archivo_partida(config_partida):
 
     return nombre_nomalizado
 
-
 # BACKEND
+def guardar_nombre_en_archivo(nombre_de_archivo):
+    fichero = open("./blackjack/partidas.txt", "a")
+    fichero.write(nombre_de_archivo+"\n")
+    fichero.close()
+
+
+# BACKEND *
 def cargar_partida_de_archivo(nombre_del_archivo):
     """
     Funcion que permite utilizar la configuracion de una partida desde un archivo. Solo conf_juego y conf_jugadores
@@ -164,3 +176,24 @@ def cargar_partida_de_archivo(nombre_del_archivo):
     fichero.close()
 
     return conf_partida
+
+
+# BACKEND *
+def limpiar_cartas(config_partida):
+    """
+    Funcion que elimina todas las cartas de los jugadores
+    :param config_partida: list con la configuracion inicial del juego
+    :return:
+    """
+
+    for jugadores in config_partida:
+        jugadores['cartas'].clear()
+
+
+"""config_partida = config_partida_inicial(config_juego())
+# Se prepara el/los masos para jugar
+maso_de_juego = cartas.maso_de_juego(config_partida)
+barajar(config_partida, maso_de_juego)
+carta_escondida_banca(config_partida)
+guardar_nombre_en_archivo(crear_archivo_partida(config_partida))
+"""
