@@ -208,7 +208,10 @@ def actualizacion_saldos(config_partida):
         if jugadores['estado'] == "GANA":
             numero_ganadores = numero_ganadores + 1
 
-    premio = pozo / numero_ganadores
+    try:
+        premio = pozo / numero_ganadores
+    except:
+        premio = 0
 
     for jugadores in config_partida:
         if jugadores['estado'] == "GANA":
@@ -254,7 +257,7 @@ def eliminacion_perdedores(config_partida):
         if perdedores in config_partida:
             config_partida.remove(perdedores)
 
-    return lista_perdedores
+    return list(lista_perdedores)
 
 
 # BACKEND *
@@ -278,3 +281,13 @@ def analisis_continuidad_juego(config_partida):
 
     # si nada de lo anterior sucedió
     return "PUEDE CONTINUAR"
+
+
+# BACKEND *
+def pause():
+    """
+    Funcion que solo sirve para hacer una pausa y que el usuario aprete cualquier tecla para continuar
+    :return:
+    """
+    input()
+

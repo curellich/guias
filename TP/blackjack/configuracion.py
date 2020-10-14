@@ -152,6 +152,24 @@ def crear_archivo_partida(config_partida):
     return nombre_nomalizado
 
 
+# BACKEND *
+def sobreescribir_archivo_partida(nombre_archivo, config_partida):
+    """
+    Convierte cada elemento de la lista a str y sobreescribe el archivo con la configuracion  de la partida
+    :param nombre_archivo: str con el nombre del archivo a sobreescribir
+    :param config_partida: list con los elementos para guardar en el archivo. (conf_juego y conf_jugadores)
+    :return: None
+    """
+    fichero = open(f"./blackjack/{nombre_archivo}", 'w')
+
+    for i in config_partida:
+        fichero.write(str(i) + "\n")
+
+    fichero.close()
+
+    return
+
+
 # BACKEND
 def guardar_nombre_en_archivo(nombre_de_archivo):
     fichero = open("./blackjack/partidas.txt", "a")
@@ -209,5 +227,3 @@ def limpiar_cartas(config_partida):
         jugadores['cartas'] = []
 
     return None
-
-

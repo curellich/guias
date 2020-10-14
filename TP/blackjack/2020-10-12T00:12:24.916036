@@ -1,2 +1,0 @@
-{'nombre': 'BANCA', 'cant_jugadores': 1, 'cant_barajas': 2, 'modo_juego': 'FACIL', 'juego_banca': 'ARRIESGADO', 'estado': None, 'saldo': 1000000, 'cartas': None}
-{'numero': 1, 'nombre': 'JONA', 'cpu': 'HUMANO', 'estado': 'EN JUEGO', 'saldo': 2000, 'posicion': None, 'cartas': None}

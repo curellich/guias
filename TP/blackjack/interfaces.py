@@ -14,11 +14,10 @@ def cartel_bienvenida():
     Funcion que imprime el encabezado del juego
     :return:
     """
-    print("""    +++++++++++++++++++++++++++++++++++++++++++++
-        +                                           +
-        +         BIENBENIVO AL BLACKJACK           +
-        +                                           +
-        +++++++++++++++++++++++++++++++++++++++++++++""")
+    print(f'{"*" * 90:^90}')
+    print(f'{"BIENVENIDO AL BLACK JACK":^90}')
+    print(f'{"*" * 90:^90}')
+
     return None
 
 
@@ -28,9 +27,9 @@ def cartel_configuracion_juego():
     Funcion que imprime el encabezado del juego
     :return:
     """
-    print("""    +++++++++++++++++++++++++++++++++++++++++++++
-        +         Configuración del Juego           +
-        +++++++++++++++++++++++++++++++++++++++++++++""")
+    print(f'{"*" * 90:^90}')
+    print(f'{"CONFIGURACION DEL JUEGO":^90}')
+    print(f'{"*" * 90:^90}')
     return None
 
 
@@ -40,9 +39,9 @@ def cartel_cartas_en_la_mesa():
     Funcion que imprime el encabezado del juego
     :return:
     """
-    print("""    +++++++++++++++++++++++++++++++++++++++++++++
-        +         Cartas en  el mesa           +
-        +++++++++++++++++++++++++++++++++++++++++++++""")
+    print(f'{"*" * 90:^90}')
+    print(f'{"CARTAS EN LA MESA":^90}')
+    print(f'{"*" * 90:^90}')
     return None
 
 
@@ -98,7 +97,7 @@ def menu_cargar_partida():
     print("Las partidas guardadas son:")
     contador = 0
     for partida in lista:
-        print(f"{contador + 1}", partida)
+        print(f"{contador + 1}-", partida)
         contador = contador + 1
     print("\n")
     while True:
@@ -417,8 +416,9 @@ def mostrar_ganadores_ronda(config_partida):
 
     for jugadores in config_partida:
         if jugadores['estado'] == "GANA":
-            print(f"{jugadores['nombre']} GANA!!!")
-
+            print(f"{'*'*90:^90}")
+            print(f"{jugadores['nombre']+' GANA':^90} ")
+            print(f"{'*' * 90:^90}")
 
 # FRONTEND *
 def mostrar_tabla(config_partida, lista_perdedores):
@@ -428,6 +428,8 @@ def mostrar_tabla(config_partida, lista_perdedores):
     :return:
     """
     cabecera = ('JUGADOR', 'SALDO', 'ESTADO')
+    print(f'{"TABLA DE SALDOS Y ESTADO DE JUEGO":^60}')
+    print(f'{"-" * 36 :^60}')
 
     # imprimo la cabecera de la tabla
     print(f'|{"-" * 18:^20} |', f'{"-" * 18:^20} |', f'{"-" * 18:^20} |')
@@ -445,7 +447,7 @@ def mostrar_tabla(config_partida, lista_perdedores):
         print(f'|{"-" * 18:^20} |', f'{"-" * 18:^20} |', f'{"-" * 18:^20} |')
         for perdedores in lista_perdedores:
             print(f"|{perdedores['nombre']:^20} |", f"{perdedores['saldo']:^20} |", f"{perdedores['estado']:^20} |")
-    print(f'|{"-" * 18:^20} |', f'{"-" * 18:^20} |', f'{"-" * 18:^20} |')
+    print(f'|{"_" * 18:^20} |', f'{"_" * 18:^20} |', f'{"_" * 18:^20} |')
 
     return None
 
@@ -453,13 +455,13 @@ def mostrar_tabla(config_partida, lista_perdedores):
 # FRONTEND
 def cierre_juego(config_partida, lista_perdedores):
     """
-    Funcion  mostrar por pantalla los resultados de la ronda o final del juego. El usuario decide continuar o no.
+    Funcion  para que el usuario decida continuar o no.
     :return: "FINALIZAR" o "CONTINUAR"
     """
-    mostrar_tabla(config_partida, lista_perdedores)
+
 
     if analisis_continuidad_juego(config_partida) == "PUEDE CONTINUAR":
-        print("-" * 3, "Presione 1 para continuar o 2 para finalizar el juego", "-" * 3)
+        print("-" * 3, "Presione 1 para CONTINUAR o 2 para FINALIZAR el juego", "-" * 3)
 
         while True:
             try:
@@ -470,5 +472,10 @@ def cierre_juego(config_partida, lista_perdedores):
                 break
             except:
                 print(f"La opción no es válida. Intente nuevamente")
+
+    if opcion == 1:
+        opcion = "PUEDE CONTINUAR"
+    else:
+        opcion = "FIN DE JUEGO"
 
     return opcion
