@@ -1,0 +1,31 @@
+ Pilas alcalinas 000 peso 2.1 precio 5.98
+ Libro de Programacion peso 13.32 precio 16.21
+ Cartuchera de cuero peso 15.21 precio 13.21
+ Lapices de colores peso 122.1 precio 28.21
+ Llantas x 4 peso 78.5 precio 6.65
+ Botellas de platico peso 15.31 precio 16.21
+ Carpetas para el colegio peso 43.34 precio 1.21
+ Sillas peso 13.21 precio 41.32
+ Auriculares Wireless peso 4.21 precio 4.23
+ Resmas de 500 hojas peso 13.22 precio 7.82
+ Juego de cerradura peso 8.76 precio 20.82
+ Vasos descartables peso 23.21 precio 16.29
+ Camperas para el frio peso 4.45 precio 7.56
+ Comida de Gatos peso 9.98 precio 9.65
+ Cuadernos escolares peso 6.56 precio 4.32
+ Cables Micro USB peso 45.43 precio 5.54
+ Repuestos de Moto peso 15.21 precio 16.21
+ Acolchados peso 4.45 precio 7.56
+ Gafas de sol peso 1.12 precio 61.45
+ Microcomponente peso 8.7 precio 137.23000000000002
+ Lampara electrica peso 9.1 precio 26.78
+ Luces LED navideñas peso 4.3 precio 7.76
+ Juego de cubiertos peso 14 precio 9.67
+ Cables Thunderbolt peso 55 precio 16.78
+ Videojuegos para PS4 peso 12.2 precio 109.89
+ Estufa Tiro Balanceado peso 6.7 precio 26.65
+ Ojotas havaianas x 2 peso 9.87 precio 67.53999999999999
+ Aerosol de ambiente peso 0.3 precio 79.12
+ Opticas para auto peso 5 precio 28.43
+ celular android 9.0 peso 115.21 precio 81.56
+ transformador fuente de 20V peso 56.54 precio 4.4

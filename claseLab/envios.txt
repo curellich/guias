@@ -1,0 +1,31 @@
+2342-Pilas alcalinas 000-San Paulo-BR-Bs As-AR-4.98-2.1-False
+234212-Libro de Programacion-San Paulo-BR-Cordoba-AR-13.21-13.32-False
+0123-Cartuchera de cuero-Rio de Janeiro-BR-Salvador-BR-11.21-15.21-True
+49323-Lapices de colores-Salvador-BR-Bs As-AR-23.21-122.1-True
+13322-Llantas x 4-San Paulo-BR-Bs As-AR-5.65-78.5-False
+4234-Botellas de platico-Salvador-BR-Cordoba-AR-13.21-15.31-False
+144432-Carpetas para el colegio-San Paulo-BR-Bs As-AR-1.21-43.34-True
+123234-Sillas-San Paulo-BR-Bs As-AR-34.32-13.21-False
+7453455-Auriculares Wireless-Rio de Janeiro-BR-Bs As-AR-3.23-4.21-True
+000012323-Resmas de 500 hojas-Salvador-BR-Cordoba-AR-6.82-13.22-False
+43233-Juego de cerradura-San Paulo-BR-Bs As-AR-16.82-8.76-True
+1233-Vasos descartables-Salvador-BR-Salvador-BR-13.29-23.21-False
+1111-Camperas para el frio-San Paulo-BR-Bs As-AR-6.56-4.45-True
+1112-Comida de Gatos-San Paulo-BR-Cordoba-AR-7.65-9.98-False
+324-Cuadernos escolares-Salvador-BR-San Paulo-BR-3.32-6.56-True
+50211-Cables Micro USB-San Paulo-BR-Bs As-AR-4.54-45.43-True
+550211-Repuestos de Moto-Rio de Janeiro-BR-Bs As-AR-13.21-15.21-True
+34222-Acolchados-Salvador-BR-Bs As-AR-6.56-4.45-False
+56534-Gafas de sol-San Paulo-BR-Bs As-AR-50.45-1.12-False
+565347-Microcomponente-San Paulo-BR-Neuquen-AR-113.23-8.7-True
+444-Lampara electrica-Miami-EU-Bs As-AR-21.78-9.1-True
+4223-Luces LED navideñas-San Paulo-BR-Salvador-BR-6.76-4.3-False
+64435-Juego de cubiertos-Salvador-BR-Bs As-AR-7.67-14-False
+113456-Cables Thunderbolt-San Paulo-BR-Bs As-AR-13.78-55-True
+113456234929-Videojuegos para PS4-Rio de Janeiro-BR-Bs As-AR-90.89-12.2-True
+23698-Estufa Tiro Balanceado-Rio de Janeiro-BR-Bs As-AR-21.65-6.7-False
+13847-Ojotas havaianas x 2-Miami-EU-Salvador-BR-55.54-9.87-False
+10001-Aerosol de ambiente-San Paulo-BR-Miami-EU-65.12-0.3-False
+1222-Opticas para auto-Rio de Janeiro-BR-BSalvador-BR-23.43-5-True
+0005-celular android 9.0-San Paulo-BR-Bs As-AR-67.56-115.21-False
+45355-transformador fuente de 20V-San Paulo-BR-Bs As-AR-3.4-56.54-True
