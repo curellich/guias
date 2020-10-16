@@ -267,7 +267,7 @@ def analisis_continuidad_juego(config_partida):
     :param config_partida: list con la configuracion del juego
     :return: str "FIN DE JUEGO" o "PUEDE CONTINUAR"
     """
-    # Si solo queda la banca porque el resto tiene saldo cero
+    # Averiguo si solo queda la banca porque el resto tiene saldo cero
     if len(config_partida) == 1:
         return "FIN DE JUEGO"
     # si algun/os jugador supero o igualo el saldo ganador

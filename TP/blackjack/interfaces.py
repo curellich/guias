@@ -199,6 +199,7 @@ def jugada_humano(nombre_jugador, config_partida, maso):
     for jugadores in config_partida:
         if nombre_jugador == jugadores['nombre']:
             jugador = jugadores
+            break
 
     print(f"Turno : {nombre_jugador}", end=' --> Cartas: ')
     # muestro las cartas del jugador
