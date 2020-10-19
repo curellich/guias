@@ -3,6 +3,20 @@ from blackjack.constantes import SALDO_INCIAL, CANT_MAX_JUGADORES, CANT_MAX_BARA
 
 import ast
 
+"""
+Las funciones config_juego(), config_jugadore() y config_partida_inicial(), son funciones para crear la ESTRUCTURA 
+DE DATOS sobre la que va a trabajar todo el programa. 
+El programa va a trabajar siempre sobre un lista llamada config_partida. 
+Cada elemento de la lista es un diccionario, el primer elemento de la lista siempre es la configuracion del juego
+y de la banca, y dependiendo de la cantidad de jugadores, abrá 1 o más diccionarios con la configuracion / informacion 
+de los jugadores.
+
+La lista config_partida se va a guardar en un fichero. Desde donde se podrá posteriormete cargar la partida.
+En el fichero la configuracion guardada contiene la configuracion del juego y jugadores, saldos y estados.
+
+Todos los nombre de los ficheros se van a almacenar en partidas.txt, para que el usuario no necesite saber el nombre
+del fichero donde se guardó la partida, sino que pueda elegirlo desde la misma.
+"""
 
 # FRONTEND (participa el usuario)
 def config_juego():
@@ -13,7 +27,7 @@ def config_juego():
     conf_juego = {'nombre': "BANCA", 'cant_jugadores': None, 'cant_barajas': None, 'modo_juego': None,
                   'juego_banca': None, 'estado': None, 'saldo': 1000000, 'cartas': None}
 
-    # El usuario ingresa por teclado la cantidad de jugadores
+    # valido el ingreso por teclado de la cantidad de jugadores
     while True:
         try:
             cant_jugadores = int(input(
@@ -22,9 +36,9 @@ def config_juego():
                 raise ValueError()
             break
         except:
-            print(f"El numero de jugadores admitidos va desde 1 hasta {CANT_MAX_JUGADORES}")
+            print(f"El numero de jugadores admitidos va \x1b[0;31;23m desde 1 hasta {CANT_MAX_JUGADORES}\x1b[0m")
 
-    # El usuario ingresa por teclado la cantidad de barajas
+    # Valido el ingreso por teclado de la cantidad de barajas
     while True:
         try:
             cant_barajas = int(input(
@@ -33,9 +47,9 @@ def config_juego():
                 raise ValueError()
             break
         except:
-            print(f"El numero de barajas admitidas va desde 1 hasta {CANT_MAX_BARAJAS}")
+            print(f"El numero de barajas admitidas va \x1b[0;31;23m desde 1 hasta {CANT_MAX_BARAJAS} \x1b[0m")
 
-    # El usuario ingresa el modo de juego
+    # Valido el ingreso por teclado del modo de juego
     while True:
         try:
             modo_juego = int(input(
@@ -44,19 +58,22 @@ def config_juego():
                 raise ValueError()
             break
         except:
-            print('El numero debe ser "1" o "2"')
+            print('El numero debe ser \x1b[0;31;23m "1" \x1b[0m o \x1b[0;31;23m "2" \x1b[0m')
 
-    # El usuario ingresa el juego de la banca
+    # Valido el ingreso por teclado del juego de la banca
     while True:
         try:
-            juego_banca = int(input('Ingrese el modo de juego de la banca: 1- Agresiva 2- Prudente 3- Inteligente: '))
+            juego_banca = int(input(
+                "Ingrese el modo de juego de la banca: \x1b[0;31;23m 1- \x1b[0m Agresiva \x1b[0;31;23m 2- \x1b[0m "
+                "Prudente \x1b[0;31;23m 3- \x1b[0m Inteligente: "))
             if juego_banca < 1 or juego_banca > 3:
                 raise ValueError()
             break
         except:
-            print('El numero debe ser "1" o "3"')
+            print("El numero admitido  \x1b[0;31;23m va desde 1 hasta 3 \x1b[0m ")
 
-    # Agrego el diccionario configuracion del juego a la lista configuracion de partida
+    # Agrego los valores ingresados por teclado al diccionario config_juego
+
     conf_juego['cant_jugadores'] = cant_jugadores
     conf_juego['cant_barajas'] = cant_barajas
     if modo_juego == 1:
@@ -91,12 +108,13 @@ def config_jugador():
     while True:
         try:
             cpu = int(
-                input('Ingrese el modo de juego: 1- CPU-Arriesgado, 2- CPU-Prudente, 3- Humano, 4- Inteligente: '))
+                input(
+                    'Ingrese el modo de juego: \x1b[0;31;23m 1- \x1b[0m CPU-Arriesgado, \x1b[0;31;23m 2- \x1b[0m CPU-Prudente, \x1b[0;31;23m 3- \x1b[0m Humano, \x1b[0;31;23m 4- \x1b[0m Inteligente: '))
             if cpu < 1 or cpu > 4:
                 raise ValueError()
             break
         except:
-            print('El numero admitito va desde 1 hasta 4')
+            print('El numero admitito va \x1b[0;31;23m desde 1 hasta 4 \x1b[0m')
 
     if cpu == 1:
         conf_jugador['cpu'] = "arriesgado".upper()
@@ -141,9 +159,9 @@ def crear_archivo_partida(config_partida):
     """
     # El nombre del archivo va a ser la fecha y hora normalizada
     nombre_fichero = datetime.now()
-    nombre_nomalizado = "%s" % nombre_fichero.isoformat()
+    nombre_nomalizado = ('{:%a %b %d %H:%M:%S}'.format(nombre_fichero))
 
-    fichero = open(f"./blackjack/{nombre_nomalizado}", 'w')
+    fichero = open(f"./blackjack/partidas_guardadas/{nombre_nomalizado}", 'w')
 
     for i in config_partida:
         fichero.write(str(i) + "\n")
@@ -161,7 +179,7 @@ def sobreescribir_archivo_partida(nombre_archivo, config_partida):
     :param config_partida: list con los elementos para guardar en el archivo. (conf_juego y conf_jugadores)
     :return: None
     """
-    fichero = open(f"./blackjack/{nombre_archivo}", 'w')
+    fichero = open(f"./blackjack/partidas_guardadas/{nombre_archivo}", 'w')
 
     for i in config_partida:
         fichero.write(str(i) + "\n")
@@ -185,7 +203,7 @@ def cargar_partida_de_archivo(nombre_del_archivo):
     :param nombre_del_archivo: str el nombre del archivo a cargar
     :return: list con la configuracion del juego.
     """
-    nombre_del_fichero = "./blackjack/" + nombre_del_archivo
+    nombre_del_fichero = "./blackjack/partidas_guardadas/" + nombre_del_archivo
     fichero = open(nombre_del_fichero, 'r')
     conf_partida = []
     linea = fichero.readline()

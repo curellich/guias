@@ -64,12 +64,12 @@ else:
 
 # Hasta aca ya tengo lo que necesito para INICIAR las partidas de HUMANO o CPU
 # La lista con la configuracion de la partida (JUGADORES, SALDO, ESTADOS Y CARTAS EN LA MESA)
-# El MASO de juego que tiene las cantidad de barajas configuradas MENOS las cartas repartidas en la mesa
+# El MASO de juego a esta altura tiene las cantidad de barajas configuradas MENOS las cartas repartidas a los jugadores
 
 # El ciclo de juego se va a desarrollar mientras:
-#  -NO HAYA UN GANADOR
-#  -Exista un jugador con su estado EN JUEGO,
-#  -el usuario no quiera interrumpir antes el juego.
+#  1) NO HAYA UN GANADOR (que supere el monto maximo establecido en las CONSTANTES)
+#  2) Exista un jugador con su estado EN JUEGO (es decir que por lo menos haya un jugador con saldo contra la banca)
+#  3) El usuario no quiera interrumpir antes el juego.
 
 while control != "FIN DE JUEGO":
     # Juegan todos los jugadores menos la BANCA
@@ -88,7 +88,7 @@ while control != "FIN DE JUEGO":
     interfaces.mostrar_jugada_banca("BANCA", config_partida, maso_de_juego)
     logica.pause()
 
-    # Analizo las cartas que salieron en la mesa
+    # Analizo las cartas que salieron en la mesa y acutalizo los estados a GANA o PIERDE
     logica.actualizacion_estados(config_partida)
 
     # Muestro el/los ganador/es de la ronda
@@ -113,7 +113,8 @@ while control != "FIN DE JUEGO":
     # Muestro tabla de  saldos y estados
     interfaces.mostrar_tabla(config_partida, lista_perdedores)
 
-    # Si estan las condiciones para continuar, le pregunto al jugador si desea continuar o salir del juego
+    # Si estan las condiciones para continuar es decir que no estemos en el caso 1) o caso 2),
+    # le pregunto al usuario si desea continuar o salir del juego
     control = logica.analisis_continuidad_juego(config_partida)
     if control != "FIN DE JUEGO":
         control = interfaces.cierre_juego(config_partida, lista_perdedores)

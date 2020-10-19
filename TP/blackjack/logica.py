@@ -90,7 +90,7 @@ def cpu_arriesgado(nombre_jugador, config_partida):  # analiza pedir cartas si s
         return "PEDIR CARTA"
 
     # Si sus cartas son hasta ahora ganadoras juega arriesgado
-    if cartas < 17 and cartas != 21:
+    if cartas < 18 and cartas != 21:
         return "PEDIR CARTA"
     else:
         return "PLANTARME"

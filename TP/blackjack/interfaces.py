@@ -49,22 +49,25 @@ def cartel_cartas_en_la_mesa():
 def menu_inicial():
     """
     Funcion que muestra un menu y permite decidir si se inicia un juego nuevo o se carga una partida
+    Emplea el metodo comprobacion_de_fichero para saber si partidas.txt tiene alguna partida para ser cargada
     :return: int con la opcion seleccionada
     """
     indicador = comprobacion_fichero()
 
+    # no existen partidas grabadas
     if indicador == "VACIO":
-        # no existen partidas grabadas
         print("No existen partidas anteriores!!! \n")
         resultado = "Juego Nuevo"
+
+    # si existe partidas grabadas
     else:
-        # si existe partidas grabadas
         print("Seleccione la opcion deseada: ")
         print("""
                 \x1b[0;31;23m 1-\x1b[0m Cargar Partida
                 \x1b[0;31;23m 2-\x1b[0m Juego Nuevo
                 """)
 
+        # Valida el ingreso por teclado
         while True:
             try:
                 opcion = int(input('Opción ' + '\x1b[0;31;23m' + '(1-2)' + '\x1b[0m' + ': '))
@@ -75,6 +78,7 @@ def menu_inicial():
             except:
                 print(f"La opción no es válida. Intente nuevamente")
 
+        # Modifico la variable resultado para ser retornada
         if opcion == 1:
             resultado = "Cargar Partida"
         else:
@@ -87,19 +91,26 @@ def menu_inicial():
 
 def menu_cargar_partida():
     """
-    Funcion que pide el nombre del archivo para vargar la partida
+    Función que permite extraer el nombre del fichero desde partidas.txt para cargar la partida
     :return: str con el nombre del archivo
     """
+    # Creo una lista con las partidas guardas
     fichero = open("./blackjack/partidas.txt", "r")
     lista = fichero.readlines()
     fichero.close()
 
     print("Las partidas guardadas son:")
+
+    # El contador es usado para numerar las partidas al momento de imprimirlas por pantalla y que permita al usuario
+    # elegir una opción despues
+
     contador = 0
     for partida in lista:
         print('\x1b[0;31;23m' + f'{contador + 1}-', partida + '\x1b[0m')
         contador = contador + 1
     print("\n")
+
+    # Valido el ingreso por teclado
     while True:
         try:
             opcion = int(input(f'Seleccione la partida a cargar:' '\x1b[0;31;23m' + f'(1-{contador}): ' + '\x1b[0m'))
@@ -109,7 +120,10 @@ def menu_cargar_partida():
             break
         except:
             print(f"La opción no es válida. Intente nuevamente")
+
+    # Guardo el nombre del archivo como un str en la variable y elimino caracteres especiales del extremo derecho
     nombre_fichero = str(lista[opcion - 1]).rstrip()
+
     return nombre_fichero
 
 
@@ -119,11 +133,13 @@ def menu_jugador_humano(config_partida):
     Funcion que muestra el menu de juego al jugador.
     :return: Opcion
     """
+
     print("""
     \x1b[0;31;23m 1-\x1b[0m Pedir carta
     \x1b[0;31;23m 2-\x1b[0m Plantarme 
     """)
 
+    # Valido el ingreso por teclado
     while True:
         try:
             opcion = int(input('Opción ' + '\x1b[0;31;23m' + '(1-2)' + '\x1b[0m' + ': '))
@@ -134,6 +150,7 @@ def menu_jugador_humano(config_partida):
         except:
             print(f"La opción no es válida. Intente nuevamente")
 
+    # Modifico la variable opcion para ser retornada de acuerdo a la opcion elegida por el usuario
     if opcion == 1:
         opcion = "PEDIR CARTA"
     else:
@@ -150,6 +167,8 @@ def mostrar_cartas_mesa(config_partida):
     :return: None
     """
 
+    # Busco dentro de la estructura de datos del juego las cartas de cada jugador, cada carta va a usar la funcion
+    # formato_carta para mostrar el valor y el palo de la carta
     for i in config_partida:
         cartas = i['cartas']
         cartas_formateadas = []
@@ -165,7 +184,7 @@ def mostrar_cartas_mesa(config_partida):
 # FRONTEND  *
 def mostrar_cartas_jugada(nombre_jugador, config_partida):
     """
-    Funcion que imprime por pantalla las cartas de un jugador, ya sea humano o maquina
+    Funcion que imprime por pantalla las cartas de un jugador, ya sea humano o maquina. Esto ya es durante la ronda
     :param nombre_jugador: str con el nombre
     :param config_partida: list con la configuracion de la partida
     :return: None
@@ -556,7 +575,7 @@ def mostrar_tabla(config_partida, lista_perdedores):
         if jugadores['nombre'] == "BANCA":
             continue
         else:
-            print('\x1b[0;36;33m' + f"|{jugadores['nombre']:^27} |", f"{jugadores['saldo']:^27} |",
+            print('\x1b[0;36;33m' + f"|{jugadores['nombre']:^27} |", f"{int(jugadores['saldo']):^27} |",
                   f"{jugadores['estado']:^27} |" + '\x1b[0m')
 
     # imprimo los datos de los jugadores que estan fuera de juego
