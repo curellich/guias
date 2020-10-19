@@ -1,8 +1,6 @@
 from datetime import datetime
 from blackjack.constantes import SALDO_INCIAL, CANT_MAX_JUGADORES, CANT_MAX_BARAJAS
-from blackjack.cartas import barajar
-from blackjack.cartas import carta_escondida_banca
-from blackjack import cartas
+
 import ast
 
 
@@ -19,7 +17,7 @@ def config_juego():
     while True:
         try:
             cant_jugadores = int(input(
-                'Ingrese la cantidad de jugadores ' + '\x1b[0;31;1m' + f'(1 - {CANT_MAX_JUGADORES})' + '\x1b[0m' + ':'))
+                'Ingrese la cantidad de jugadores ' + '\x1b[0;31;23m' + f'(1 - {CANT_MAX_JUGADORES})' + '\x1b[0m' + ':'))
             if cant_jugadores < 1 or cant_jugadores > CANT_MAX_JUGADORES:
                 raise ValueError()
             break
@@ -30,7 +28,7 @@ def config_juego():
     while True:
         try:
             cant_barajas = int(input(
-                'Ingrese la cantidad de barajas ' + '\x1b[0;31;1m' + f'(1 - {CANT_MAX_BARAJAS})' + '\x1b[0m' + ':'))
+                'Ingrese la cantidad de barajas ' + '\x1b[0;31;23m' + f'(1 - {CANT_MAX_BARAJAS})' + '\x1b[0m' + ':'))
             if cant_barajas < 1 or cant_barajas > CANT_MAX_BARAJAS:
                 raise ValueError()
             break
@@ -41,7 +39,7 @@ def config_juego():
     while True:
         try:
             modo_juego = int(input(
-                'Ingrese el modo de juego: ' + '\x1b[0;31;1m' + '1-' + '\x1b[0m' + ' Facil ' + '\x1b[0;31;1m' + '2-' + '\x1b[0m' + ' Dificil: '))
+                'Ingrese el modo de juego: ' + '\x1b[0;31;23m' + '1-' + '\x1b[0m' + ' Facil ' + '\x1b[0;31;23m' + '2-' + '\x1b[0m' + ' Dificil: '))
             if modo_juego < 1 or modo_juego > 2:
                 raise ValueError()
             break

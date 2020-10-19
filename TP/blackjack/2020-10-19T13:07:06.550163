@@ -1,0 +1,2 @@
+{'nombre': 'BANCA', 'cant_jugadores': 1, 'cant_barajas': 1, 'modo_juego': 'FACIL', 'juego_banca': 'ARRIESGADO', 'estado': 'EN JUEGO', 'saldo': 1000200.0, 'cartas': []}
+{'numero': 1, 'nombre': 'JONATHAN', 'cpu': 'INTELIGENTE', 'estado': 'EN JUEGO', 'saldo': 800.0, 'posicion': None, 'cartas': []}

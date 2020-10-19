@@ -15,7 +15,7 @@ def cartel_bienvenida():
     :return:
     """
     print(f'{"*" * 90:^90}')
-    print('\x1b[2;30;47m'+f'{"BIENVENIDO AL BLACK JACK":^90}'+'\x1b[0m')
+    print('\x1b[0;30;47m' + f'{"BIENVENIDO AL BLACK JACK":^90}' + '\x1b[0m')
     print(f'{"*" * 90:^90}')
 
     return None
@@ -28,7 +28,7 @@ def cartel_configuracion_juego():
     :return:
     """
     print(f'{"*" * 90:^90}')
-    print('\x1b[2;30;47m'+f'{"CONFIGURACION DEL JUEGO":^90}'+'\x1b[0m')
+    print('\x1b[0;30;47m' + f'{"CONFIGURACION DEL JUEGO":^90}' + '\x1b[0m')
     print(f'{"*" * 90:^90}')
     return None
 
@@ -40,7 +40,7 @@ def cartel_cartas_en_la_mesa():
     :return:
     """
     print(f'{"*" * 90:^90}')
-    print('\x1b[2;30;47m'+f'{"CARTAS EN LA MESA":^90}'+'\x1b[0m')
+    print('\x1b[0;30;47m' + f'{"CARTAS EN LA MESA":^90}' + '\x1b[0m')
     print(f'{"*" * 90:^90}')
     return None
 
@@ -61,13 +61,13 @@ def menu_inicial():
         # si existe partidas grabadas
         print("Seleccione la opcion deseada: ")
         print("""
-                1- Cargar Partida
-                2- Juego Nuevo
+                \x1b[0;31;23m 1-\x1b[0m Cargar Partida
+                \x1b[0;31;23m 2-\x1b[0m Juego Nuevo
                 """)
 
         while True:
             try:
-                opcion = int(input('Opción (1-2): '))
+                opcion = int(input('Opción ' + '\x1b[0;31;23m' + '(1-2)' + '\x1b[0m' + ': '))
 
                 if opcion != 1 and opcion != 2:
                     raise ValueError
@@ -97,12 +97,12 @@ def menu_cargar_partida():
     print("Las partidas guardadas son:")
     contador = 0
     for partida in lista:
-        print(f"{contador + 1}-", partida)
+        print('\x1b[0;31;23m' + f'{contador + 1}-', partida + '\x1b[0m')
         contador = contador + 1
     print("\n")
     while True:
         try:
-            opcion = int(input(f"Seleccione la partida a cargar: (1-{contador}): "))
+            opcion = int(input(f'Seleccione la partida a cargar:' '\x1b[0;31;23m' + f'(1-{contador}): ' + '\x1b[0m'))
 
             if opcion < 1 or opcion > contador:
                 raise ValueError
@@ -120,13 +120,13 @@ def menu_jugador_humano(config_partida):
     :return: Opcion
     """
     print("""
-    1- Pedir carta
-    2- Plantarme 
+    \x1b[0;31;23m 1-\x1b[0m Pedir carta
+    \x1b[0;31;23m 2-\x1b[0m Plantarme 
     """)
 
     while True:
         try:
-            opcion = int(input('Opción (1-2): '))
+            opcion = int(input('Opción ' + '\x1b[0;31;23m' + '(1-2)' + '\x1b[0m' + ': '))
 
             if opcion != 1 and opcion != 2:
                 raise ValueError
@@ -202,16 +202,16 @@ def jugada_humano(nombre_jugador, config_partida, maso):
             jugador = jugadores
             break
 
-    print(f"Turno : {nombre_jugador}", end=' --> Cartas: ')
+    print('\x1b[0;30;47m' + f'Turno : {nombre_jugador}' + '\x1b[0m', end=' --> Cartas: ')
 
     # muestro las cartas del jugador
     mostrar_cartas_jugada(nombre_jugador, config_partida)
 
     # Muestro por pantalla si el jugador gana o pierde
     if suma_cartas(jugador) == 21:
-        print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+        print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
     elif suma_cartas(jugador) > 21:
-        print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+        print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
     if suma_cartas(jugador) < 21:
 
@@ -227,9 +227,9 @@ def jugada_humano(nombre_jugador, config_partida, maso):
 
             # Muestro por pantalla si el jugador gana o pierde
             if suma_cartas(jugador) == 21:
-                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
             elif suma_cartas(jugador) > 21:
-                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
         while opcion != "PLANTARME" and suma_cartas(jugador) < 21:  #
             opcion = menu_jugador_humano(config_partida)
@@ -243,9 +243,9 @@ def jugada_humano(nombre_jugador, config_partida, maso):
 
             # Muestro por pantalla si el jugador gana o pierde
             if suma_cartas(jugador) == 21:
-                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
             elif suma_cartas(jugador) > 21:
-                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
     return
 
@@ -265,21 +265,21 @@ def mostrar_jugada_cpu(nombre_jugador, config_partida, maso):
         if nombre_jugador == jugadores['nombre']:
             jugador = jugadores
 
-    print(f"Turno : {nombre_jugador} ({jugador['cpu']})", end=' --> Cartas: ')
+    print('\x1b[0;30;47m' + f'Turno : {nombre_jugador}' + '\x1b[0m' + f" ({jugador['cpu']})", end=' --> Cartas: ')
 
     # muestro las cartas del jugador
     mostrar_cartas_jugada(nombre_jugador, config_partida)
 
     # Muestro por pantalla si el jugador gana o pierde
     if suma_cartas(jugador) == 21:
-        print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+        print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
     elif suma_cartas(jugador) > 21:
-        print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+        print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
     # DESARROLLO DEL JUEGO PARA EL CPU ARRIESGADO
     if jugador['cpu'] == 'ARRIESGADO':
         opcion = cpu_arriesgado(jugador['nombre'], config_partida)
-        print(f"\nCPU decide--> {opcion}")
+        print('\nCPU decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
 
         # si pidió cartas
         if opcion == "PEDIR CARTA":
@@ -290,13 +290,13 @@ def mostrar_jugada_cpu(nombre_jugador, config_partida, maso):
 
             # Muestro por pantalla si el jugador gana o pierde
             if suma_cartas(jugador) == 21:
-                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
             elif suma_cartas(jugador) > 21:
-                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
             while opcion != "PLANTARME" and suma_cartas(jugador) < 21:
                 opcion = cpu_arriesgado(jugador['nombre'], config_partida)
-                print(f"\nCPU decide--> {opcion}")
+                print('\nCPU decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
                 if opcion == "PLANTARME":
                     print("\n")
                     break
@@ -306,14 +306,14 @@ def mostrar_jugada_cpu(nombre_jugador, config_partida, maso):
                 mostrar_cartas_jugada(nombre_jugador, config_partida)
                 # Muetro por pantalla si el jugador gana o pierde
                 if suma_cartas(jugador) == 21:
-                    print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                    print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
                 elif suma_cartas(jugador) > 21:
-                    print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                    print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
     # DESARROLLO DEL JUEGO PARA CPU PRUDENTE
     elif jugador['cpu'] == 'PRUDENTE':
         opcion = cpu_prudente(jugador['nombre'], config_partida)
-        print(f"\nCPU decide--> {opcion}")
+        print('\nCPU decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
 
         # si pidió cartas
         if opcion == "PEDIR CARTA":
@@ -324,13 +324,13 @@ def mostrar_jugada_cpu(nombre_jugador, config_partida, maso):
 
             # Muestro por pantalla si el jugador gana o pierde
             if suma_cartas(jugador) == 21:
-                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
             elif suma_cartas(jugador) > 21:
-                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
             while opcion != "PLANTARME" and suma_cartas(jugador) < 21:
                 opcion = cpu_prudente(jugador['nombre'], config_partida)
-                print(f"\nCPU decide--> {opcion}")
+                print('\nCPU decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
                 if opcion == "PLANTARME":
                     print("\n")
                     break
@@ -340,14 +340,14 @@ def mostrar_jugada_cpu(nombre_jugador, config_partida, maso):
                 mostrar_cartas_jugada(nombre_jugador, config_partida)
                 # Muestro por pantalla si el jugador gana o pierde
                 if suma_cartas(jugador) == 21:
-                    print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                    print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
                 elif suma_cartas(jugador) > 21:
-                    print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                    print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
     # DESARROLLO DEL JUEGO PARA CPU INTELIGENTE
     elif jugador['cpu'] == 'INTELIGENTE':
         opcion = cpu_inteligente(jugador['nombre'], config_partida)
-        print(f"\nCPU decide--> {opcion}")
+        print('\nCPU decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
 
         # si pidió cartas
         if opcion == "PEDIR CARTA":
@@ -358,13 +358,13 @@ def mostrar_jugada_cpu(nombre_jugador, config_partida, maso):
 
             # Muestro por pantalla si el jugador gana o pierde
             if suma_cartas(jugador) == 21:
-                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
             elif suma_cartas(jugador) > 21:
-                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
             while opcion != "PLANTARME" and suma_cartas(jugador) < 21:
                 opcion = cpu_inteligente(jugador['nombre'], config_partida)
-                print(f"\nCPU decide--> {opcion}")
+                print('\nCPU decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
                 if opcion == "PLANTARME":
                     print("\n")
                     break
@@ -374,9 +374,9 @@ def mostrar_jugada_cpu(nombre_jugador, config_partida, maso):
                 mostrar_cartas_jugada(nombre_jugador, config_partida)
                 # Muestro por pantalla si el jugador gana o pierde
                 if suma_cartas(jugador) == 21:
-                    print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                    print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
                 elif suma_cartas(jugador) > 21:
-                    print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                    print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
     return
 
@@ -395,20 +395,21 @@ def mostrar_jugada_banca(nombre_jugador, config_partida, maso):
         if nombre_jugador == jugadores['nombre']:
             jugador = jugadores
 
-    print(f"Turno : {nombre_jugador} ({jugador['juego_banca']})", end=' --> Cartas: ')
+    print('\x1b[0;30;47m' + f'Turno : {nombre_jugador}' + '\x1b[0m' + f"({jugador['juego_banca']})",
+          end=' --> Cartas: ')
     # muestro las cartas del jugador
     mostrar_cartas_jugada(nombre_jugador, config_partida)
 
     # Muestro por pantalla si la banca gana o pierde
     if suma_cartas(jugador) == 21:
-        print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+        print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
     elif suma_cartas(jugador) > 21:
-        print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+        print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
     # DESARROLLO DEL JUEGO PARA EL BANCA ARRIESGADO
     if jugador['juego_banca'] == 'ARRIESGADO':
         opcion = cpu_arriesgado(jugador['nombre'], config_partida)
-        print(f"\nBANCA decide--> {opcion}")
+        print('\nCPU decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
 
         # si pidió cartas
         if opcion == "PEDIR CARTA":
@@ -419,13 +420,13 @@ def mostrar_jugada_banca(nombre_jugador, config_partida, maso):
 
             # Muestro por pantalla si la banca gana o pierde
             if suma_cartas(jugador) == 21:
-                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
             elif suma_cartas(jugador) > 21:
-                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
             while opcion != "PLANTARME" and suma_cartas(jugador) < 21:
                 opcion = cpu_arriesgado(jugador['nombre'], config_partida)
-                print(f"\nBANCA decide--> {opcion}")
+                print('\nBANCA decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
                 if opcion == "PLANTARME":
                     print("\n")
                     break
@@ -435,14 +436,14 @@ def mostrar_jugada_banca(nombre_jugador, config_partida, maso):
                 mostrar_cartas_jugada(nombre_jugador, config_partida)
                 # Muestro por pantalla si la banca gana o pierde
                 if suma_cartas(jugador) == 21:
-                    print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                    print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
                 elif suma_cartas(jugador) > 21:
-                    print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                    print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
     # DESARROLLO DEL JUEGO PARA BANCA PRUDENTE
     elif jugador['juego_banca'] == 'PRUDENTE':
         opcion = cpu_prudente(jugador['nombre'], config_partida)
-        print(f"\nBANCA decide--> {opcion}")
+        print('\nBANCA decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
 
         # si pidió cartas
         if opcion == "PEDIR CARTA":
@@ -453,13 +454,13 @@ def mostrar_jugada_banca(nombre_jugador, config_partida, maso):
 
             # Muestro por pantalla si la banca gana o pierde
             if suma_cartas(jugador) == 21:
-                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
             elif suma_cartas(jugador) > 21:
-                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
             while opcion != "PLANTARME" and suma_cartas(jugador) < 21:
                 opcion = cpu_prudente(jugador['nombre'], config_partida)
-                print(f"\nBANCA decide--> {opcion}")
+                print('\nBANCA decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
                 if opcion == "PLANTARME":
                     print("\n")
                     break
@@ -470,14 +471,14 @@ def mostrar_jugada_banca(nombre_jugador, config_partida, maso):
 
                 # Muestro por pantalla si la banca gana o pierde
                 if suma_cartas(jugador) == 21:
-                    print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                    print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
                 elif suma_cartas(jugador) > 21:
-                    print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                    print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
     # DESARROLLO DEL JUEGO PARA BANCA INTELIGENTE
     elif jugador['juego_banca'] == 'INTELIGENTE':
         opcion = cpu_inteligente(jugador['nombre'], config_partida)
-        print(f"\nBANCA decide--> {opcion}")
+        print('\nBANCA decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
 
         # si pidió cartas
         if opcion == "PEDIR CARTA":
@@ -488,13 +489,13 @@ def mostrar_jugada_banca(nombre_jugador, config_partida, maso):
 
             # Muestro por pantalla si la banca gana o pierde
             if suma_cartas(jugador) == 21:
-                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
             elif suma_cartas(jugador) > 21:
-                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
             while opcion != "PLANTARME" and suma_cartas(jugador) < 21:
                 opcion = cpu_inteligente(jugador['nombre'], config_partida)
-                print(f"\nBANCA decide--> {opcion}")
+                print('\nBANCA decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
                 if opcion == "PLANTARME":
                     print("\n")
                     break
@@ -505,9 +506,9 @@ def mostrar_jugada_banca(nombre_jugador, config_partida, maso):
 
                 # Muestro por pantalla si la banca gana o pierde
                 if suma_cartas(jugador) == 21:
-                    print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" +  '\x1b[0m')
+                    print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
                 elif suma_cartas(jugador) > 21:
-                    print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" +  '\x1b[0m')
+                    print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
 
     return
 
@@ -519,12 +520,18 @@ def mostrar_ganadores_ronda(config_partida):
     :param config_partida: list con la configuracion del juego
     :return: None
     """
-
+    ganadores = 0
     for jugadores in config_partida:
         if jugadores['estado'] == "GANA":
+            ganadores = ganadores + 1
             print(f"{'*' * 90:^90}")
-            print('\x1b[7;31;31m'+f"{jugadores['nombre'] + ' ¡¡¡GANA!!!':^90}"+'\x1b[0m')
+            print('\x1b[5;37;41m' + f"{jugadores['nombre'] + ' ¡¡¡GANA!!!':^90}" + '\x1b[0m')
             print(f"{'*' * 90:^90}")
+
+    if ganadores == 0:
+        print(f"{'*' * 90:^90}")
+        print('\x1b[5;37;41m' + f"{'¡¡¡ NADIE-GANA!!!':^90}" + '\x1b[0m')
+        print(f"{'*' * 90:^90}")
 
 
 # FRONTEND *
@@ -535,26 +542,30 @@ def mostrar_tabla(config_partida, lista_perdedores):
     :return:
     """
     cabecera = ('JUGADOR', 'SALDO', 'ESTADO')
-    print(f'{"TABLA DE SALDOS Y ESTADO DE JUEGO":^60}')
-    print(f'{"-" * 36 :^60}')
+    print(f'{"*" * 90:^90}')
+    print('\x1b[0;30;47m' + f'{"TABLA DE SALDOS Y ESTADOS DEL JUEGO":^90}' + '\x1b[0m')
+    print(f'{"*" * 90:^90}')
 
     # imprimo la cabecera de la tabla
-    print(f'|{"-" * 18:^20} |', f'{"-" * 18:^20} |', f'{"-" * 18:^20} |')
-    print(f'|{cabecera[0]:^20} |', f'{cabecera[1]:^20} |', f'{cabecera[2]:^20} |')
-    print(f'|{"-" * 18:^20} |', f'{"-" * 18:^20} |', f'{"-" * 18:^20} |')
+    print('\x1b[0;36;33m' + f'|{"-" * 18:^27} |', f'{"-" * 18:^27} |', f'{"-" * 18:^27} |' + '\x1b[0m')
+    print('\x1b[0;36;33m' + f'|{cabecera[0]:^27} |', f'{cabecera[1]:^27} |', f'{cabecera[2]:^27} |' + '\x1b[0m')
+    print('\x1b[0;36;33m' + f'|{"-" * 18:^27} |', f'{"-" * 18:^27} |', f'{"-" * 18:^27} |' + '\x1b[0m')
 
     # imprimo los datos de cada jugador en juego
     for jugadores in config_partida:
         if jugadores['nombre'] == "BANCA":
             continue
         else:
-            print(f"|{jugadores['nombre']:^20} |", f"{jugadores['saldo']:^20} |", f"{jugadores['estado']:^20} |")
+            print('\x1b[0;36;33m' + f"|{jugadores['nombre']:^27} |", f"{jugadores['saldo']:^27} |",
+                  f"{jugadores['estado']:^27} |" + '\x1b[0m')
 
+    # imprimo los datos de los jugadores que estan fuera de juego
     if len(lista_perdedores) != 0:
-        print(f'|{"-" * 18:^20} |', f'{"-" * 18:^20} |', f'{"-" * 18:^20} |')
+        print('\x1b[0;36;33m' + f'|{"-" * 18:^27} |', f'{"-" * 18:^27} |', f'{"-" * 18:^27} |' + '\x1b[0m')
         for perdedores in lista_perdedores:
-            print(f"|{perdedores['nombre']:^20} |", f"{perdedores['saldo']:^20} |", f"{perdedores['estado']:^20} |")
-    print(f'|{"_" * 18:^20} |', f'{"_" * 18:^20} |', f'{"_" * 18:^20} |')
+            print('\x1b[0;37;31m' + f"|{perdedores['nombre']:^27} |", f"{perdedores['saldo']:^27} |",
+                  f"{perdedores['estado']:^27} |" + '\x1b[0m')
+    print('\x1b[0;36;33m' + f'|{"_" * 18:^27} |', f'{"_" * 18:^27} |', f'{"_" * 18:^27} |' + '\x1b[0m')
 
     return None
 
@@ -567,11 +578,13 @@ def cierre_juego(config_partida, lista_perdedores):
     """
 
     if analisis_continuidad_juego(config_partida) == "PUEDE CONTINUAR":
-        print("-" * 3, "Presione 1 para CONTINUAR o 2 para FINALIZAR el juego", "-" * 3)
+        print("-" * 3,
+              "Presione " + '\x1b[0;31;23m' + '1' + '\x1b[0m' + ' para CONTINUAR o ' + '\x1b[0;31;23m' + '2' + '\x1b[0m' + ' para FINALIZAR el juego',
+              "-" * 3)
 
         while True:
             try:
-                opcion = int(input('Opción (1-2): '))
+                opcion = int(input('Opción ' + '\x1b[0;31;23m' + '(1-2)' + '\x1b[0m' + ': '))
 
                 if opcion != 1 and opcion != 2:
                     raise ValueError
