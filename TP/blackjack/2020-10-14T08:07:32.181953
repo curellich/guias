@@ -1,3 +1,0 @@
-{'nombre': 'BANCA', 'cant_jugadores': 2, 'cant_barajas': 3, 'modo_juego': 'FACIL', 'juego_banca': 'ARRIESGADO', 'estado': 'EN JUEGO', 'saldo': 999800, 'cartas': []}
-{'numero': 1, 'nombre': 'JONATHAN', 'cpu': 'HUMANO', 'estado': 'EN JUEGO', 'saldo': 1400.0, 'posicion': None, 'cartas': []}
-{'numero': 2, 'nombre': 'GONZALO', 'cpu': 'ARRIESGADO', 'estado': 'EN JUEGO', 'saldo': 800, 'posicion': None, 'cartas': []}

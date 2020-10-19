@@ -83,6 +83,13 @@ def cpu_arriesgado(nombre_jugador, config_partida):  # analiza pedir cartas si s
             jugador = jugadores
 
     cartas = suma_cartas(jugador)
+
+    # Mientras las cartas del jugador sean perdedoras
+    # Solicita cartas hasta sus cartas sean ganadoras, igualar 21 o pasarse.
+    while cartas < mayor_suma(config_partida) and cartas != 21 and cartas < 21:
+        return "PEDIR CARTA"
+
+    # Si sus cartas son hasta ahora ganadoras juega arriesgado
     if cartas < 17 and cartas != 21:
         return "PEDIR CARTA"
     else:
@@ -90,9 +97,9 @@ def cpu_arriesgado(nombre_jugador, config_partida):  # analiza pedir cartas si s
 
 
 # BACKEND *
-def cpu_prudente(nombre_jugador, config_partida):  # analiza pedir cartas si su valor es menor a 14
+def cpu_prudente(nombre_jugador, config_partida):
     """
-    Funcion para que el cpu_prudente decida pedir carta o no.
+    Funcion para que el cpu_prudente decida pedir carta o no, si sus cartas son menores a 14 tira la moneda.
     :param nombre_jugador: str con el nombre del jugador
     :param config_partida: list con la configuracion del juego
     :return: str con "PEDIR CARTA" o "PLANTARME"
@@ -103,7 +110,13 @@ def cpu_prudente(nombre_jugador, config_partida):  # analiza pedir cartas si su 
             jugador = jugadores
 
     cartas = suma_cartas(jugador)
+    # Mientras las cartas del jugador sean perdedoras
+    # Solicita cartas hasta sus cartas sean ganadoras, igualar 21 o pasarse.
 
+    while cartas < mayor_suma(config_partida) and cartas != 21 and cartas < 21:
+        return "PEDIR CARTA"
+
+    # Si las cartas del jugador son hasta ahora ganadoras juega prudente
     if cartas < 14 and cartas != 21:
         desicion = flip_coin()
         return desicion
@@ -290,4 +303,3 @@ def pause():
     :return:
     """
     input()
-

@@ -62,12 +62,14 @@ else:
     interfaces.cartel_cartas_en_la_mesa()
     interfaces.mostrar_cartas_mesa(config_partida)
 
-# Hasta aca ya tengo lo que necesito para desarrollar las partidas de HUMANO o CPU
+# Hasta aca ya tengo lo que necesito para INICIAR las partidas de HUMANO o CPU
 # La lista con la configuracion de la partida (JUGADORES, SALDO, ESTADOS Y CARTAS EN LA MESA)
-# El MASO de juego que tiene las barajas configuradas MENOS las cartas repartidas en la mesa
+# El MASO de juego que tiene las cantidad de barajas configuradas MENOS las cartas repartidas en la mesa
 
-# El ciclo de juego se desarrolla mientras NO HAYA UN GANADOR, exista un jugador EN JUEGO, el usuario
-# no quiera interrumpir antes el juego.
+# El ciclo de juego se va a desarrollar mientras:
+#  -NO HAYA UN GANADOR
+#  -Exista un jugador con su estado EN JUEGO,
+#  -el usuario no quiera interrumpir antes el juego.
 
 while control != "FIN DE JUEGO":
     # Juegan todos los jugadores menos la BANCA
@@ -76,45 +78,45 @@ while control != "FIN DE JUEGO":
             if jugadores['cpu'] == "HUMANO":
                 interfaces.jugada_humano(jugadores['nombre'], config_partida, maso_de_juego)
                 logica.pause()
-                print("-"*30+"\n")
+                print("-" * 50 + "\n")
             else:
                 interfaces.mostrar_jugada_cpu(jugadores['nombre'], config_partida, maso_de_juego)
                 logica.pause()
-                print("-" * 30+"\n")
+                print("-" * 50 + "\n")
 
     # Juega la BANCA
-    interfaces.mostrar_jugada_banca("BANCA",config_partida,maso_de_juego)
+    interfaces.mostrar_jugada_banca("BANCA", config_partida, maso_de_juego)
     logica.pause()
 
-    # Analizo las cartas jugadas en la mesa
+    # Analizo las cartas que salieron en la mesa
     logica.actualizacion_estados(config_partida)
 
     # Muestro el/los ganador/es de la ronda
     interfaces.mostrar_ganadores_ronda(config_partida)
 
-    # Actualizo los saldos
+    # Actualizo los saldos para ganadores y perdedores
     logica.actualizacion_saldos(config_partida)
 
-    # Analizo continuidad de jugadores
+    # Analizo continuidad de los jugadores en base a su saldo disponible
     for jugadores in config_partida:
         logica.analisis_continuidad_jugador(jugadores)
 
-    # Elimino los jugadores que no pueden continuar
+    # Elimino los jugadores que no pueden continuar jugando por falta de saldo
     lista_perdedores.extend(logica.eliminacion_perdedores(config_partida))
 
-    # Se borran las cartas que tengan todos los jugadores
+    # Se borran (retiran) las cartas que tengan todos los jugadores
     configuracion.limpiar_cartas(config_partida)
 
-    # Sobreescribo partida
-    configuracion.sobreescribir_archivo_partida(nombre_archivo,config_partida)
+    # Sobreescribo partida en el archivo.
+    configuracion.sobreescribir_archivo_partida(nombre_archivo, config_partida)
 
     # Muestro tabla de  saldos y estados
-    interfaces.mostrar_tabla(config_partida,lista_perdedores)
+    interfaces.mostrar_tabla(config_partida, lista_perdedores)
 
-    # Si estan las condiciones para continuar pregunto al jugador para seguir judando
+    # Si estan las condiciones para continuar, le pregunto al jugador si desea continuar o salir del juego
     control = logica.analisis_continuidad_juego(config_partida)
-    if  control != "FIN DE JUEGO":
-        control = interfaces.cierre_juego(config_partida,lista_perdedores)
+    if control != "FIN DE JUEGO":
+        control = interfaces.cierre_juego(config_partida, lista_perdedores)
         if control != "FIN DE JUEGO":
             # si el juego continua....
             # Se prepara el/los masos para jugar
@@ -128,4 +130,4 @@ while control != "FIN DE JUEGO":
             interfaces.cartel_cartas_en_la_mesa()
             interfaces.mostrar_cartas_mesa(config_partida)
 
-            #reinicia la ronda
+            # reinicia la ronda
