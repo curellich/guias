@@ -18,7 +18,8 @@ def config_juego():
     # El usuario ingresa por teclado la cantidad de jugadores
     while True:
         try:
-            cant_jugadores = int(input(f'Ingrese la cantidad de jugadores (1 - {CANT_MAX_JUGADORES}): '))
+            cant_jugadores = int(input(
+                'Ingrese la cantidad de jugadores ' + '\x1b[0;31;1m' + f'(1 - {CANT_MAX_JUGADORES})' + '\x1b[0m' + ':'))
             if cant_jugadores < 1 or cant_jugadores > CANT_MAX_JUGADORES:
                 raise ValueError()
             break
@@ -28,7 +29,8 @@ def config_juego():
     # El usuario ingresa por teclado la cantidad de barajas
     while True:
         try:
-            cant_barajas = int(input(f'Ingrese la cantidad de barajas (1 - {CANT_MAX_BARAJAS}): '))
+            cant_barajas = int(input(
+                'Ingrese la cantidad de barajas ' + '\x1b[0;31;1m' + f'(1 - {CANT_MAX_BARAJAS})' + '\x1b[0m' + ':'))
             if cant_barajas < 1 or cant_barajas > CANT_MAX_BARAJAS:
                 raise ValueError()
             break
@@ -38,7 +40,8 @@ def config_juego():
     # El usuario ingresa el modo de juego
     while True:
         try:
-            modo_juego = int(input('Ingrese el modo de juego: 1- Facil 2- Dificil: '))
+            modo_juego = int(input(
+                'Ingrese el modo de juego: ' + '\x1b[0;31;1m' + '1-' + '\x1b[0m' + ' Facil ' + '\x1b[0;31;1m' + '2-' + '\x1b[0m' + ' Dificil: '))
             if modo_juego < 1 or modo_juego > 2:
                 raise ValueError()
             break
