@@ -117,7 +117,7 @@ while control != "FIN DE JUEGO":
     # le pregunto al usuario si desea continuar o salir del juego
     control = logica.analisis_continuidad_juego(config_partida)
     if control != "FIN DE JUEGO":
-        control = interfaces.cierre_juego(config_partida, lista_perdedores)
+        control = interfaces.cierre_juego(config_partida)
         if control != "FIN DE JUEGO":
             # si el juego continua....
             # Se prepara el/los masos para jugar

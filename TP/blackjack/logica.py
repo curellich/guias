@@ -1,5 +1,5 @@
 from random import randint
-from blackjack.constantes import SALDO_GANADOR
+from blackjack.constantes import SALDO_GANADOR, APUESTA
 
 
 # BACKEND *
@@ -11,7 +11,6 @@ def suma_cartas(jugador):
     """
     suma_cartas_numericas = 0
     suma_cartas_de_la_corte = 0
-    suma_total = 0
     cartas_numericas = []
     cartas_de_la_corte = []
     cartas_as = []
@@ -32,7 +31,7 @@ def suma_cartas(jugador):
 
     # Segundo sumo las carta de la corte
     if len(cartas_de_la_corte) != 0:
-        for carta_corte in cartas_de_la_corte:
+        for _ in cartas_de_la_corte:
             suma_cartas_de_la_corte = suma_cartas_de_la_corte + 10
 
     # Sumo cartas numericas y de la corte
@@ -42,7 +41,7 @@ def suma_cartas(jugador):
 
     # Suma todas las cartas "As" intentando no pasarse de 21
     if suma_total == 21 and len(cartas_as) != 0:
-        for carta in cartas_as:
+        for _ in cartas_as:
             suma_total = suma_total + 1
         return suma_total  # se pasa de 21 pero las suma igual con valor de 1 cada as
 
@@ -171,7 +170,7 @@ def mayor_suma(config_partida):
 
     for jugadores in config_partida:
         suma = suma_cartas(jugadores)
-        if mayor < suma and suma < 22:
+        if mayor < suma < 22:
             mayor = suma
 
     return mayor
@@ -215,14 +214,16 @@ def actualizacion_saldos(config_partida):
     """
     pozo = 0
     numero_ganadores = 0
+
     for jugadores in config_partida:
-        jugadores['saldo'] = jugadores['saldo'] - 200
-        pozo = pozo + 200
+        jugadores['saldo'] = jugadores['saldo'] - APUESTA
+        pozo = pozo + APUESTA
         if jugadores['estado'] == "GANA":
             numero_ganadores = numero_ganadores + 1
 
     try:
         premio = pozo / numero_ganadores
+
     except:
         premio = 0
 
@@ -241,7 +242,7 @@ def analisis_continuidad_jugador(jugador):
     :return: str "EN JUEGO" o "FUERA DE JUEGO"
     """
 
-    if jugador['saldo'] < 200:
+    if jugador['saldo'] < APUESTA:
         analisis = "FUERA DE JUEGO"
     else:
         analisis = "EN JUEGO"

@@ -128,7 +128,7 @@ def menu_cargar_partida():
 
 
 # FRONTEND *
-def menu_jugador_humano(config_partida):
+def menu_jugador_humano():
     """
     Funcion que muestra el menu de juego al jugador.
     :return: Opcion
@@ -227,10 +227,7 @@ def jugada_humano(nombre_jugador, config_partida, maso):
     mostrar_cartas_jugada(nombre_jugador, config_partida)
 
     # Muestro por pantalla si el jugador gana o pierde
-    if suma_cartas(jugador) == 21:
-        print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
-    elif suma_cartas(jugador) > 21:
-        print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
+    mostrar_blackjack_o_se_paso(jugador)
 
     if suma_cartas(jugador) < 21:
 
@@ -245,10 +242,7 @@ def jugada_humano(nombre_jugador, config_partida, maso):
             mostrar_cartas_jugada(nombre_jugador, config_partida)  # se muestran las cartas agregadas
 
             # Muestro por pantalla si el jugador gana o pierde
-            if suma_cartas(jugador) == 21:
-                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
-            elif suma_cartas(jugador) > 21:
-                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
+            mostrar_blackjack_o_se_paso(jugador)
 
         while opcion != "PLANTARME" and suma_cartas(jugador) < 21:  #
             opcion = menu_jugador_humano(config_partida)
@@ -261,10 +255,7 @@ def jugada_humano(nombre_jugador, config_partida, maso):
             mostrar_cartas_jugada(nombre_jugador, config_partida)
 
             # Muestro por pantalla si el jugador gana o pierde
-            if suma_cartas(jugador) == 21:
-                print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
-            elif suma_cartas(jugador) > 21:
-                print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
+            mostrar_blackjack_o_se_paso(jugador)
 
     return
 
@@ -290,10 +281,7 @@ def mostrar_jugada_cpu(nombre_jugador, config_partida, maso):
     mostrar_cartas_jugada(nombre_jugador, config_partida)
 
     # Muestro por pantalla si el jugador gana o pierde
-    if suma_cartas(jugador) == 21:
-        print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
-    elif suma_cartas(jugador) > 21:
-        print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
+    mostrar_blackjack_o_se_paso(jugador)
 
     # DESARROLLO DEL JUEGO PARA EL CPU ARRIESGADO
     if jugador['cpu'] == 'ARRIESGADO':
@@ -420,10 +408,7 @@ def mostrar_jugada_banca(nombre_jugador, config_partida, maso):
     mostrar_cartas_jugada(nombre_jugador, config_partida)
 
     # Muestro por pantalla si la banca gana o pierde
-    if suma_cartas(jugador) == 21:
-        print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
-    elif suma_cartas(jugador) > 21:
-        print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
+    mostrar_blackjack_o_se_paso(jugador)
 
     # DESARROLLO DEL JUEGO PARA EL BANCA ARRIESGADO
     if jugador['juego_banca'] == 'ARRIESGADO':
@@ -532,6 +517,22 @@ def mostrar_jugada_banca(nombre_jugador, config_partida, maso):
     return
 
 
+# BACKEND
+def mostrar_blackjack_o_se_paso(jugador):
+    """
+    Funcion que muestra por pantalla si el jugador durante su turno hizo blackjack o perdió
+    :param jugador: dict con la informacion del jugador
+    :return: None
+    """
+
+    if suma_cartas(jugador) == 21:
+        print('\x1b[0;32;25m' + "¡¡¡BLACKJACK!!!" + '\x1b[0m')
+    elif suma_cartas(jugador) > 21:
+        print('\x1b[0;32;25m' + "--->MAYOR A 21 :(" + '\x1b[0m')
+
+    return None
+
+
 # FRONTEND *
 def mostrar_ganadores_ronda(config_partida):
     """
@@ -557,6 +558,7 @@ def mostrar_ganadores_ronda(config_partida):
 def mostrar_tabla(config_partida, lista_perdedores):
     """
     Funcion que muestra jugadores, saldos y estados. Ordenados por saldo
+    :param lista_perdedores: list con los jugadores que no tienen saldo para seguir jugando
     :param config_partida: list con la config_partida
     :return:
     """
@@ -590,15 +592,17 @@ def mostrar_tabla(config_partida, lista_perdedores):
 
 
 # FRONTEND
-def cierre_juego(config_partida, lista_perdedores):
+def cierre_juego(config_partida):
     """
     Funcion  para que el usuario decida continuar o no.
     :return: "FINALIZAR" o "CONTINUAR"
     """
 
+    opcion = ""
     if analisis_continuidad_juego(config_partida) == "PUEDE CONTINUAR":
         print("-" * 3,
-              "Presione " + '\x1b[0;31;23m' + '1' + '\x1b[0m' + ' para CONTINUAR o ' + '\x1b[0;31;23m' + '2' + '\x1b[0m' + ' para FINALIZAR el juego',
+              "Presione " + '\x1b[0;31;23m' + '1' + '\x1b[0m' + ' para CONTINUAR o ' +
+              '\x1b[0;31;23m' + '2' + '\x1b[0m' + ' para FINALIZAR el juego',
               "-" * 3)
 
         while True:

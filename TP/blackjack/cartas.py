@@ -50,18 +50,6 @@ def mezclar_maso(maso):
 
 
 # BACKEND *
-def maso_de_juego(config_partida):
-    """
-    Funcion que retorna un maso, mezclado con las cantidades de naipes configuradas
-    :return: list maso listo para jugar
-    """
-    cant_barajas = config_partida[0]['cant_barajas']  # obtengo la cant de barajas de la conf
-    maso = constr_maso(cant_barajas, crear_baraja_tipo())  # construyo el maso
-    mezclar_maso(maso)  # mezclo el maso
-    return maso
-
-
-# BACKEND *
 def sacar_carta(maso_mezclado):
     """
     Siempre se saca una carta de arriba del maso
@@ -69,6 +57,7 @@ def sacar_carta(maso_mezclado):
     :return: dict una carta
     """
     return maso_mezclado.pop()
+
 
 # BACKEND *
 def maso_de_juego(conf_partida):
@@ -85,10 +74,12 @@ def maso_de_juego(conf_partida):
 
     return maso_nuevo
 
+
 # BACKEND *
 def barajar(conf_partida, maso_nuevo):
     """
     Reparte dos cartas a cada jugador y a la banca, y las guarda en la conf_partida
+    :param maso_nuevo: list con las cartas ya listas para usar
     :param conf_partida: list con la conf_juego y conf_jugador para todos los jugadores
     :return: None
     """
@@ -109,6 +100,7 @@ def carta_escondida_banca(config_partida):
     carta_escondida = config_partida[0]['cartas'].pop()
 
     return carta_escondida
+
 
 # BACKEND *
 def formato_carta(carta):
