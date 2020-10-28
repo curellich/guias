@@ -8,6 +8,20 @@ def suma_cartas(jugador):
     Funcion que suma las cartas del usuario o maquina
     :param jugador: dict con las informacion del jugador
     :return: int con la suma de las cartas
+
+    Testing
+    >>> jugador = {'cartas': [{'valor': 4, 'palo': "pica"},{'valor': "K", 'palo': "diamante" }]} # (4 + k) = 14
+    >>> suma_cartas(jugador)
+    14
+    >>> jugador = {'cartas': [{'valor': "A", 'palo': "pica"},{'valor': "A", 'palo': "diamante" }]} # (A + A) = 12
+    >>> suma_cartas(jugador)
+    12
+    >>> jugador = {'cartas': [{'valor': "A", 'palo': "pica"},{'valor': "K", 'palo': "diamante" },{'valor': "J", 'palo': "diamante" }]}
+    >>> suma_cartas(jugador)
+    21
+    >>> jugador = {'cartas': [{'valor': "K", 'palo': "pica"},{'valor': "A", 'palo': "diamante" }]} # (K + A) = 21
+    >>> suma_cartas(jugador)
+    20
     """
     suma_cartas_numericas = 0
     suma_cartas_de_la_corte = 0
@@ -75,6 +89,7 @@ def cpu_arriesgado(nombre_jugador, config_partida):  # analiza pedir cartas si s
     :param nombre_jugador: str con el nombre del jugador
     :param config_partida: list con la configuracion del juego
     :return: str con "PEDIR CARTA" o "PLANTARME"
+
     """
     jugador = {}
     for jugadores in config_partida:
@@ -274,26 +289,42 @@ def eliminacion_perdedores(config_partida):
     return list(lista_perdedores)
 
 
-# BACKEND *
-def analisis_continuidad_juego(config_partida):
+# BACKEND
+def eliminacion_ganadores(config_partida):
     """
-    Funcion que decide si finaliza el juego o permite al jugador continuar
+     Funcion que quita los jugadores cuyo estado es "FUERA DE JUEGO" y los guarda en una lista.
+     :param config_partida: list con la configuracion del juego
+     :return: list con todos los perdedores
+     """
+    lista_ganadores = []
+
+    for jugadores in config_partida:
+        if jugadores['nombre'] != 'BANCA' and jugadores['saldo'] >= SALDO_GANADOR:
+            jugadores['estado'] = "GANADOR"
+            lista_ganadores.append(jugadores.copy())
+
+    for ganadores in lista_ganadores:
+        if ganadores in config_partida:
+            config_partida.remove(ganadores)
+
+    return list(lista_ganadores)
+
+
+# BACKEND *
+def analisis_continuidad_juego(config_partida, lista_ganadores):
+    """
+    Funcion que decide si finaliza el juego porque se alcanzo el saldo maximo o porque los jugadores no tienen saldo
     :param config_partida: list con la configuracion del juego
     :return: str "FIN DE JUEGO" o "PUEDE CONTINUAR"
     """
     # Averiguo si solo queda la banca porque el resto tiene saldo cero
     if len(config_partida) == 1:
         return "FIN DE JUEGO"
-    # si algun/os jugador supero o igualo el saldo ganador
-    else:
-        for jugadores in config_partida:
-            if jugadores['nombre'] == "BANCA":
-                continue
-            else:
-                if jugadores['saldo'] >= SALDO_GANADOR:
-                    return "FIN DE JUEGO"
 
-    # si nada de lo anterior sucedió
+    # Averiguo si algun/os jugador supero o igualo el saldo maximo (ganador) definido como CONSTANTE
+    if len(lista_ganadores) != 0:
+        return "FIN DE JUEGO"
+
     return "PUEDE CONTINUAR"
 
 
@@ -304,3 +335,8 @@ def pause():
     :return:
     """
     input()
+
+
+import doctest
+
+doctest.testmod()

@@ -6,6 +6,7 @@ from blackjack.logica import cpu_inteligente
 from blackjack.cartas import formato_carta
 from blackjack.logica import analisis_continuidad_juego
 from blackjack.configuracion import comprobacion_fichero
+from blackjack.constantes import SALDO_GANADOR
 
 
 # BACKEND *
@@ -232,7 +233,7 @@ def jugada_humano(nombre_jugador, config_partida, maso):
     if suma_cartas(jugador) < 21:
 
         # muestro las opciones de juego
-        opcion = str(menu_jugador_humano(config_partida))  # se muestran las opciones jugar o plantarse
+        opcion = str(menu_jugador_humano())  # se muestran las opciones jugar o plantarse
 
         # si pidió cartas
         if opcion == "PEDIR CARTA":
@@ -245,7 +246,7 @@ def jugada_humano(nombre_jugador, config_partida, maso):
             mostrar_blackjack_o_se_paso(jugador)
 
         while opcion != "PLANTARME" and suma_cartas(jugador) < 21:  #
-            opcion = menu_jugador_humano(config_partida)
+            opcion = menu_jugador_humano()
             if opcion == "PLANTARME":
                 print("\n")
                 break
@@ -555,7 +556,7 @@ def mostrar_ganadores_ronda(config_partida):
 
 
 # FRONTEND *
-def mostrar_tabla(config_partida, lista_perdedores):
+def mostrar_tabla(config_partida, lista_perdedores, lista_ganadores):
     """
     Funcion que muestra jugadores, saldos y estados. Ordenados por saldo
     :param lista_perdedores: list con los jugadores que no tienen saldo para seguir jugando
@@ -572,6 +573,14 @@ def mostrar_tabla(config_partida, lista_perdedores):
     print('\x1b[0;36;33m' + f'|{cabecera[0]:^27} |', f'{cabecera[1]:^27} |', f'{cabecera[2]:^27} |' + '\x1b[0m')
     print('\x1b[0;36;33m' + f'|{"-" * 18:^27} |', f'{"-" * 18:^27} |', f'{"-" * 18:^27} |' + '\x1b[0m')
 
+    # imprimo los datos de los jugadores que tienen saldo ganador
+    if len(lista_ganadores) != 0:
+        print('\x1b[0;36;33m' + f'|{"-" * 18:^27} |', f'{"-" * 18:^27} |', f'{"-" * 18:^27} |' + '\x1b[0m')
+        for ganadores in lista_ganadores:
+            print('\x1b[0;36;25m' + f"|{ganadores['nombre']:^27} |", f"{int(ganadores['saldo']):^27} |",
+                  f"{ganadores['estado']:^27} |" + '\x1b[0m')
+        print('\x1b[0;36;33m' + f'|{"_" * 18:^27} |', f'{"_" * 18:^27} |', f'{"_" * 18:^27} |' + '\x1b[0m')
+
     # imprimo los datos de cada jugador en juego
     for jugadores in config_partida:
         if jugadores['nombre'] == "BANCA":
@@ -584,7 +593,7 @@ def mostrar_tabla(config_partida, lista_perdedores):
     if len(lista_perdedores) != 0:
         print('\x1b[0;36;33m' + f'|{"-" * 18:^27} |', f'{"-" * 18:^27} |', f'{"-" * 18:^27} |' + '\x1b[0m')
         for perdedores in lista_perdedores:
-            print('\x1b[0;37;31m' + f"|{perdedores['nombre']:^27} |", f"{perdedores['saldo']:^27} |",
+            print('\x1b[0;37;31m' + f"|{perdedores['nombre']:^27} |", f"{int(perdedores['saldo']):^27} |",
                   f"{perdedores['estado']:^27} |" + '\x1b[0m')
     print('\x1b[0;36;33m' + f'|{"_" * 18:^27} |', f'{"_" * 18:^27} |', f'{"_" * 18:^27} |' + '\x1b[0m')
 
@@ -592,14 +601,35 @@ def mostrar_tabla(config_partida, lista_perdedores):
 
 
 # FRONTEND
-def cierre_juego(config_partida):
+def mostrar_ganador_juego(config_partida):
+    """
+    Funcion que busca en la canfig_partida el jugador que igualo o supero el saldo ganador y lo muestra en pantalla
+    :param config_partida:
+    :return: None
+    """
+    lista_ganadores = []
+    for jugadores in config_partida:
+        if jugadores['nombre'] != 'BANCA' and jugadores['saldo'] >= SALDO_GANADOR:
+            lista_ganadores.append(jugadores)
+
+    if len(lista_ganadores) != 0:
+        for ganadores in lista_ganadores:
+            print(f"{'*' * 90:^90}")
+            print('\x1b[5;31;46m' + f"{'GANADOR/ES DEL JUEGO: ' + ganadores['nombre']:^90}" + '\x1b[0m')
+            print(f"{'*' * 90:^90}")
+
+        print("Fin del juego")
+
+
+# FRONTEND *
+def cierre_juego(config_partida, lista_ganadores):
     """
     Funcion  para que el usuario decida continuar o no.
     :return: "FINALIZAR" o "CONTINUAR"
     """
 
     opcion = ""
-    if analisis_continuidad_juego(config_partida) == "PUEDE CONTINUAR":
+    if analisis_continuidad_juego(config_partida, lista_ganadores) == "PUEDE CONTINUAR":
         print("-" * 3,
               "Presione " + '\x1b[0;31;23m' + '1' + '\x1b[0m' + ' para CONTINUAR o ' +
               '\x1b[0;31;23m' + '2' + '\x1b[0m' + ' para FINALIZAR el juego',

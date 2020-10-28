@@ -1,6 +1,7 @@
 from datetime import datetime
 from blackjack.constantes import SALDO_INCIAL, CANT_MAX_JUGADORES, CANT_MAX_BARAJAS
 
+
 import ast
 
 """
@@ -17,6 +18,7 @@ En el fichero la configuracion guardada contiene la configuracion del juego y ju
 Todos los nombre de los ficheros se van a almacenar en partidas.txt, para que el usuario no necesite saber el nombre
 del fichero donde se guardó la partida, sino que pueda elegirlo desde la misma.
 """
+
 
 # FRONTEND (participa el usuario)
 def config_juego():
@@ -172,7 +174,7 @@ def crear_archivo_partida(config_partida):
 
 
 # BACKEND *
-def sobreescribir_archivo_partida(nombre_archivo, config_partida):
+def sobreescribir_archivo_partida(nombre_archivo, config_partida, lista_perdedores, lista_ganadores):
     """
     Convierte cada elemento de la lista a str y sobreescribe el archivo con la configuracion  de la partida
     :param nombre_archivo: str con el nombre del archivo a sobreescribir
@@ -181,8 +183,12 @@ def sobreescribir_archivo_partida(nombre_archivo, config_partida):
     """
     fichero = open(f"./blackjack/partidas_guardadas/{nombre_archivo}", 'w')
 
-    for i in config_partida:
-        fichero.write(str(i) + "\n")
+    for jugadores in config_partida:
+        fichero.write(str(jugadores) + "\n")
+    for ganadores in lista_ganadores:
+        fichero.write(str(ganadores) + "\n")
+    for perdedores in lista_perdedores:
+        fichero.write(str(perdedores) + "\n")
 
     fichero.close()
 
@@ -205,16 +211,16 @@ def cargar_partida_de_archivo(nombre_del_archivo):
     """
     nombre_del_fichero = "./blackjack/partidas_guardadas/" + nombre_del_archivo
     fichero = open(nombre_del_fichero, 'r')
-    conf_partida = []
+    config_partida = []
     linea = fichero.readline()
 
     while linea != '':
-        conf_partida.append(ast.literal_eval(linea))
+        config_partida.append(ast.literal_eval(linea))
         linea = fichero.readline()
 
     fichero.close()
 
-    return conf_partida
+    return config_partida
 
 
 # BACKEND *

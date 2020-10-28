@@ -3,25 +3,29 @@ from blackjack import interfaces
 from blackjack import cartas
 from blackjack import logica
 
+
 # Cartel de bienvenida
 interfaces.cartel_bienvenida()
 
 # El jugador decide si cargar partida o realizar un juego nuevo
 desicion = interfaces.menu_inicial()
 
-# Variable para controlar cuando termina el juego
+# Lista de perdedores para almacenar los jugadores que se quedan sin saldo
+lista_perdedores = []
+
+# Lista de ganadores para almacenar los jugadores que superan el saldo maximo
+lista_ganadores = []
+
+# Bandera para controlar cuando termina el juego
 control = ""
 
-# Se carga la partida o se configura el juego nuevo
+# Si la opcion fue configurar el juego nuevo...
 if desicion == "Juego Nuevo":
     # Se muestra por pantalla el cartel de configuracion del juego
     interfaces.cartel_configuracion_juego()
 
     # Se crea la lista de configuracion del juego sobre la que trabaja el programa
     config_partida = configuracion.config_partida_inicial(configuracion.config_juego())
-
-    # Se crea la lista de perdedores para almacenar los que se quedan sin saldo
-    lista_perdedores = []
 
     # Se crea el archivo y se guarda el nombre del archivo en el fichero partidas.txt
     nombre_archivo = configuracion.crear_archivo_partida(config_partida)
@@ -30,13 +34,15 @@ if desicion == "Juego Nuevo":
     # Se prepara el/los masos para jugar
     maso_de_juego = cartas.maso_de_juego(config_partida)
 
-    # Se reparte las cartas a los jugadores y se quita una carta a la banca
+    # Se reparte las cartas a los jugadores y a la banca
     cartas.barajar(config_partida, maso_de_juego)
     cartas.carta_escondida_banca(config_partida)
 
     # Se muestran las cartas de la mesa
     interfaces.cartel_cartas_en_la_mesa()
     interfaces.mostrar_cartas_mesa(config_partida)
+
+    # Si la opcion fue cargar patida...
 else:
     # Se carga una partida guardada
     nombre_archivo = interfaces.menu_cargar_partida()
@@ -45,14 +51,24 @@ else:
     # Se filtra los jugadores que no tienen saldo para jugar
     lista_perdedores = logica.eliminacion_perdedores(config_partida)
 
+    # Se filtra los jugadores que superen el saldo maximo de juego (ganadores )
+    lista_ganadores = logica.eliminacion_ganadores(config_partida)
+
+    # Si existen ganadores por haber superado el saldo maximo o todos son perdedores por quedarse sin saldo
+    # Se muestra la tabla y se finaliza el juego
+    if len(lista_ganadores) != 0 or len(config_partida) == 1:
+        interfaces.mostrar_tabla(config_partida, lista_perdedores, lista_ganadores)
+        print("\x1b[0;37;31m Esta partida está FINALIZADA \x1b[0m")
+        exit()
+
+    # Se muestra la tabla
+    interfaces.mostrar_tabla(config_partida, lista_perdedores, lista_ganadores)
+
     # Se prepara el/los masos para jugar
     maso_de_juego = cartas.maso_de_juego(config_partida)
 
     # Se borran las cartas que tengan todos los jugadores
     configuracion.limpiar_cartas(config_partida)
-
-    # Se muestra la tabla
-    interfaces.mostrar_tabla(config_partida, lista_perdedores)
 
     # Se reparte las cartas a los jugadores y se quita una carta a la banca
     cartas.barajar(config_partida, maso_de_juego)
@@ -104,20 +120,31 @@ while control != "FIN DE JUEGO":
     # Elimino los jugadores que no pueden continuar jugando por falta de saldo
     lista_perdedores.extend(logica.eliminacion_perdedores(config_partida))
 
+    # Se filtra los jugadores que superen el saldo maximo de juego (ganadores )
+    lista_ganadores = logica.eliminacion_ganadores(config_partida)
+
     # Se borran (retiran) las cartas que tengan todos los jugadores
     configuracion.limpiar_cartas(config_partida)
 
     # Sobreescribo partida en el archivo.
-    configuracion.sobreescribir_archivo_partida(nombre_archivo, config_partida)
+    configuracion.sobreescribir_archivo_partida(nombre_archivo, config_partida, lista_perdedores, lista_ganadores)
 
     # Muestro tabla de  saldos y estados
-    interfaces.mostrar_tabla(config_partida, lista_perdedores)
+    interfaces.mostrar_tabla(config_partida, lista_perdedores, lista_ganadores)
+
+    # Analizo que que no se cumplan las condiciones 1) y 2) para  poder continuar el juego
+    control = logica.analisis_continuidad_juego(config_partida, lista_ganadores)
+
+    # Si hay algun ganador/es del juego se muestra por pantalla
+    if control == "FIN DE JUEGO":
+        interfaces.mostrar_ganador_juego(config_partida)
 
     # Si estan las condiciones para continuar es decir que no estemos en el caso 1) o caso 2),
-    # le pregunto al usuario si desea continuar o salir del juego
-    control = logica.analisis_continuidad_juego(config_partida)
+
     if control != "FIN DE JUEGO":
-        control = interfaces.cierre_juego(config_partida)
+        # Le pregunto al usuario si desea continuar o salir del juego
+        control = interfaces.cierre_juego(config_partida, lista_ganadores)
+
         if control != "FIN DE JUEGO":
             # si el juego continua....
             # Se prepara el/los masos para jugar
@@ -132,3 +159,7 @@ while control != "FIN DE JUEGO":
             interfaces.mostrar_cartas_mesa(config_partida)
 
             # reinicia la ronda
+
+
+
+
