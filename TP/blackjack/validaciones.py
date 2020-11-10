@@ -98,6 +98,7 @@ def validacion_tipo_1_4():
     return ingreso
 
 
+# FRONTEND *
 def validacion_tipo_1_contador(contador):
     """
     Funcion para validar el ingreso por teclado desde 1 hasta un limite puesto por contador

@@ -55,10 +55,7 @@ else:
 
     # Si existen ganadores por haber superado el saldo maximo o todos son perdedores por quedarse sin saldo
     # Se muestra la tabla y se finaliza el juego
-    if len(lista_ganadores) != 0 or len(config_partida) == 1:
-        interfaces.mostrar_tabla(config_partida, lista_perdedores, lista_ganadores)
-        print("\x1b[0;37;31m Esta partida está FINALIZADA \x1b[0m")
-        exit()
+    interfaces.mostrar_tabla_al_cargar_partida(config_partida, lista_ganadores, lista_perdedores)
 
     # Se muestra la tabla
     interfaces.mostrar_tabla(config_partida, lista_perdedores, lista_ganadores)
@@ -88,16 +85,7 @@ else:
 
 while control != "FIN DE JUEGO":
     # Juegan todos los jugadores menos la BANCA
-    for jugadores in config_partida:
-        if jugadores['nombre'] != "BANCA":
-            if jugadores['cpu'] == "HUMANO":
-                interfaces.mostrar_jugada(jugadores['nombre'], config_partida, maso_de_juego)
-                logica.pause()
-                print("-" * 50 + "\n")
-            else:
-                interfaces.mostrar_jugada(jugadores['nombre'], config_partida, maso_de_juego)
-                logica.pause()
-                print("-" * 50 + "\n")
+    interfaces.ciclo_juego_sin_banca(config_partida, maso_de_juego)
 
     # Juega la BANCA
     interfaces.mostrar_jugada("BANCA", config_partida, maso_de_juego)
@@ -113,13 +101,12 @@ while control != "FIN DE JUEGO":
     logica.actualizacion_saldos(config_partida)
 
     # Analizo continuidad de los jugadores en base a su saldo disponible
-    for jugadores in config_partida:
-        logica.analisis_continuidad_jugador(jugadores)
+    logica.analisis_continuidad_todos_los_jugadores(config_partida)
 
-    # Elimino los jugadores que no pueden continuar jugando por falta de saldo
+    # Elimino los jugadores que no pueden continuar jugando por falta de saldo y los agrego a la lista de perdedores
     lista_perdedores.extend(logica.eliminacion_perdedores(config_partida))
 
-    # Se filtra los jugadores que superen el saldo maximo de juego (ganadores )
+    # Se filtra los jugadores que superen el saldo maximo de juego (ganadores ) y los agrego a la lista de ganadores
     lista_ganadores = logica.eliminacion_ganadores(config_partida)
 
     # Se borran (retiran) las cartas que tengan todos los jugadores
@@ -138,7 +125,7 @@ while control != "FIN DE JUEGO":
     if control == "FIN DE JUEGO":
         interfaces.mostrar_ganador_juego(config_partida)
 
-    # Si estan las condiciones para continuar es decir que no estemos en el caso 1) o caso 2),
+    # Si estan dadas las condiciones para continuar el juego, es decir que no estemos en el caso 1) o caso 2),
 
     if control != "FIN DE JUEGO":
         # Le pregunto al usuario si desea continuar o salir del juego

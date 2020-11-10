@@ -1,11 +1,8 @@
-from blackjack import configuracion
-from blackjack import interfaces
-from blackjack import cartas
 from blackjack import logica
 import unittest
 
 
-class Test_Suma_Cartas(unittest.TestCase):
+class TestSumaCartas(unittest.TestCase):
 
     def test_suma_cartas(self):
         # Pruebo el comportamiento de las cartas de la corte
@@ -26,7 +23,7 @@ class Test_Suma_Cartas(unittest.TestCase):
         self.assertEqual((logica.suma_cartas(jugador)), 21)
 
 
-class Test_cpu_arriesgado(unittest.TestCase):
+class TestCpuArriesgado(unittest.TestCase):
 
     def test_cpu_arriesgado(self):
         config_partida = [{'nombre': 'BANCA', 'cant_jugadores': 3, 'cant_barajas': 4, 'modo_juego': 'DIFICIL',
@@ -92,7 +89,7 @@ class Test_cpu_arriesgado(unittest.TestCase):
         self.assertEqual(logica.cpu_arriesgado(nombre_jugador, config_partida), "PLANTARME")
 
 
-class Test_cpu_prudente(unittest.TestCase):
+class TestCpuPrudente(unittest.TestCase):
 
     def test_cpu_prudente(self):
         config_partida = [{'nombre': 'BANCA', 'cant_jugadores': 3, 'cant_barajas': 4, 'modo_juego': 'DIFICIL',
@@ -143,7 +140,7 @@ class Test_cpu_prudente(unittest.TestCase):
         self.assertEqual(logica.cpu_arriesgado(nombre_jugador, config_partida), "PEDIR CARTA")
 
 
-class Test_cpu_inteligente(unittest.TestCase):
+class TestCpuInteligente(unittest.TestCase):
 
     def test_cpu_prudente(self):
         config_partida = [{'nombre': 'BANCA', 'cant_jugadores': 3, 'cant_barajas': 4, 'modo_juego': 'DIFICIL',

@@ -70,6 +70,24 @@ def suma_cartas(jugador):
 
 
 # BACKEND *
+def mayor_suma(config_partida):
+    """
+    Funcion para calcular el total de las cartas ganadoras hasta el momento
+    :param config_partida: list con la configuracion del juego
+    :return: int con el total
+    """
+    mayor = 0  # siempre es la banca
+
+    # Busco la mayor suma pero menor o igual a 21
+    for jugadores in config_partida:
+        suma = suma_cartas(jugadores)
+        if mayor < suma <= 21:
+            mayor = suma
+
+    return mayor
+
+
+# BACKEND *
 def cpu_arriesgado(nombre_jugador, config_partida):  # analiza pedir cartas si su valor no está entre 17-21.
     """
     Funcion para que el cpu_arriesgado decida pedir carta o no.
@@ -126,20 +144,6 @@ def cpu_prudente(nombre_jugador, config_partida):
 
 
 # BACKEND *
-def flip_coin():
-    """
-    Funcion que genera una decision aleatoria.
-    :return: str "PEDIR CARTA" o "PLANTARME"
-    """
-    numero = randint(0, 1)
-    if numero == 1:
-        desicion = "PEDIR CARTA"
-    else:
-        desicion = "PLANTARME"
-    return desicion
-
-
-# BACKEND *
 def cpu_inteligente(nombre_jugador, config_partida):  # analiza los otros jugadores y decide si jugar
     """
     Funcion para que el cpu_inteligencia_artifical decida pedir carta o no, despues de analizar los otros jugadores
@@ -159,24 +163,6 @@ def cpu_inteligente(nombre_jugador, config_partida):  # analiza los otros jugado
         return "PEDIR CARTA"
     else:
         return "PLANTARME"
-
-
-# BACKEND *
-def mayor_suma(config_partida):
-    """
-    Funcion para calcular el total de las cartas ganadoras hasta el momento
-    :param config_partida: list con la configuracion del juego
-    :return: int con el total
-    """
-    mayor = 0  # siempre es la banca
-
-    # Busco la mayor suma pero menor o igual a 21
-    for jugadores in config_partida:
-        suma = suma_cartas(jugadores)
-        if mayor < suma <= 21:
-            mayor = suma
-
-    return mayor
 
 
 # BACKEND *
@@ -254,6 +240,38 @@ def analisis_continuidad_jugador(jugador):
 
 
 # BACKEND *
+def analisis_continuidad_todos_los_jugadores(config_partida):
+    """
+    Funcion que Analiza la continuidad de los jugadores en base a su saldo disponible
+    :param config_partida: list con la configuracion de la partida
+    :return:
+    """
+    for jugadores in config_partida:
+        analisis_continuidad_jugador(jugadores)
+
+    return None
+
+
+# BACKEND *
+def analisis_continuidad_juego(config_partida, lista_ganadores):
+    """
+    Funcion que decide si finaliza el juego porque se alcanzo el saldo maximo o porque los jugadores no tienen saldo
+    :param config_partida: list con la configuracion del juego
+    :param lista_ganadores: list con los jugadores que superen el saldo ganador
+    :return: str "FIN DE JUEGO" o "PUEDE CONTINUAR"
+    """
+    # Averiguo si solo queda la banca porque el resto tiene saldo cero
+    if len(config_partida) == 1:
+        return "FIN DE JUEGO"
+
+    # Averiguo si algun/os jugador supero o igualo el saldo maximo (ganador) definido como CONSTANTE
+    if len(lista_ganadores) != 0:
+        return "FIN DE JUEGO"
+
+    return "PUEDE CONTINUAR"
+
+
+# BACKEND *
 def eliminacion_perdedores(config_partida):
     """
     Funcion que quita los jugadores cuyo estado es "FUERA DE JUEGO" y los guarda en una lista.
@@ -299,25 +317,6 @@ def eliminacion_ganadores(config_partida):
 
 
 # BACKEND *
-def analisis_continuidad_juego(config_partida, lista_ganadores):
-    """
-    Funcion que decide si finaliza el juego porque se alcanzo el saldo maximo o porque los jugadores no tienen saldo
-    :param config_partida: list con la configuracion del juego
-    :param lista_ganadores: list con los jugadores que superen el saldo ganador
-    :return: str "FIN DE JUEGO" o "PUEDE CONTINUAR"
-    """
-    # Averiguo si solo queda la banca porque el resto tiene saldo cero
-    if len(config_partida) == 1:
-        return "FIN DE JUEGO"
-
-    # Averiguo si algun/os jugador supero o igualo el saldo maximo (ganador) definido como CONSTANTE
-    if len(lista_ganadores) != 0:
-        return "FIN DE JUEGO"
-
-    return "PUEDE CONTINUAR"
-
-
-# BACKEND *
 def retorno_jugador(nombre_jugador, config_partida):
     """
     Funcion que asigna busca con el nombre del jugador el diccionario que le corresponde y lo asigna a una variable
@@ -331,6 +330,20 @@ def retorno_jugador(nombre_jugador, config_partida):
         if nombre_jugador == jugadores['nombre']:
             jugador = jugadores
     return jugador
+
+
+# BACKEND *
+def flip_coin():
+    """
+    Funcion que genera una decision aleatoria.
+    :return: str "PEDIR CARTA" o "PLANTARME"
+    """
+    numero = randint(0, 1)
+    if numero == 1:
+        desicion = "PEDIR CARTA"
+    else:
+        desicion = "PLANTARME"
+    return desicion
 
 
 # BACKEND *

@@ -1,3 +1,4 @@
+from blackjack import logica
 from blackjack.cartas import sacar_carta
 from blackjack.logica import suma_cartas
 from blackjack.cartas import formato_carta
@@ -9,6 +10,8 @@ from blackjack.logica import opcion_segun_cpu
 from blackjack.validaciones import validacion_tipo_1_2
 from blackjack.validaciones import validacion_tipo_1_contador
 
+
+# FUNCIONES QUE SON CARTELES Y SEÑALES !!!SIN PARTICIPACION DEL USUARIO¡¡¡
 
 # FRONTEND *
 def cartel_bienvenida():
@@ -45,96 +48,6 @@ def cartel_cartas_en_la_mesa():
     print('\x1b[0;30;47m' + f'{"CARTAS EN LA MESA":^90}' + '\x1b[0m')
     print(f'{"*" * 90:^90}')
     return None
-
-
-# FRONTEND *
-def menu_inicial():
-    """
-    Funcion que muestra un menu y permite decidir si se inicia un juego nuevo o se carga una partida
-    Emplea el metodo comprobacion_de_fichero para saber si partidas.txt tiene alguna partida para ser cargada
-    :return: int con la opcion seleccionada
-    """
-    indicador = comprobacion_fichero()
-
-    # no existen partidas grabadas
-    if indicador == "VACIO":
-        print("No existen partidas anteriores!!! \n")
-        resultado = "Juego Nuevo"
-
-    # si existe partidas grabadas
-    else:
-        print("Seleccione la opcion deseada: ")
-        print("""
-                \x1b[0;31;23m 1-\x1b[0m Cargar Partida
-                \x1b[0;31;23m 2-\x1b[0m Juego Nuevo
-                """)
-
-        # Valida el ingreso por teclado
-        opcion = validacion_tipo_1_2()
-
-        # Modifico la variable resultado para ser retornada
-        if opcion == 1:
-            resultado = "Cargar Partida"
-        else:
-            resultado = "Juego Nuevo"
-
-    return resultado
-
-
-# FRONTEND *
-
-def menu_cargar_partida():
-    """
-    Función que permite extraer el nombre del fichero desde partidas.txt para cargar la partida
-    :return: str con el nombre del archivo
-    """
-    # Creo una lista con las partidas guardas
-    fichero = open("./blackjack/partidas.txt", "r")
-    lista = fichero.readlines()
-    fichero.close()
-
-    print("Las partidas guardadas son:")
-
-    # El contador es usado para numerar las partidas al momento de imprimirlas por pantalla y que permita al usuario
-    # elegir una opción despues
-
-    contador = 0
-    for partida in lista:
-        print('\x1b[0;31;23m' + f'{contador + 1}-', partida + '\x1b[0m')
-        contador = contador + 1
-    print("\n")
-
-    # Valido el ingreso por teclado
-    opcion = validacion_tipo_1_contador(contador)
-
-    # Guardo el nombre del archivo como un str en la variable y elimino caracteres especiales del extremo derecho
-    nombre_fichero = str(lista[opcion - 1]).rstrip()
-
-    return nombre_fichero
-
-
-# FRONTEND *
-def menu_jugador_humano():
-    """
-    Funcion que muestra el menu de juego al jugador.
-    :return: Opcion
-    """
-
-    print("""
-    \x1b[0;31;23m 1-\x1b[0m Pedir carta
-    \x1b[0;31;23m 2-\x1b[0m Plantarme 
-    """)
-
-    # Valido el ingreso por teclado
-    opcion = validacion_tipo_1_2()
-
-    # Modifico la variable opcion para ser retornada de acuerdo a la opcion elegida por el usuario
-    if opcion == 1:
-        opcion = "PEDIR CARTA"
-    else:
-        opcion = "PLANTARME"
-
-    return opcion
 
 
 # FRONTEND *
@@ -181,77 +94,6 @@ def mostrar_cartas_jugada(nombre_jugador, config_partida):
         print(f"{str(i['valor'])}{i['palo']}", end=' ')
 
     return
-
-
-# FRONTEND *
-def mostrar_jugada(nombre_jugador, config_partida, maso):
-    """
-        Funcion que muestra la situacion inicial del jugador y luego llama a otra funcion para desarrollar el juego
-        :param nombre_jugador: str con el nombre del jugador
-        :param config_partida: list con la configuracion del juego
-        :param maso: list con las cartas del maso que se están jugando
-        :return:
-        """
-    # Con el nombre del jugador genero el dict con la informacion del jugador
-    jugador = retorno_jugador(nombre_jugador, config_partida)
-
-    # Encabezado con el NOMBRE, MODO DE JUEGO Y las CARTAS asignadas
-    if jugador['cpu'] == 'HUMANO':
-        print('\x1b[0;30;47m' + f'Turno : {nombre_jugador}' + '\x1b[0m', end=' --> Cartas: ')
-    else:
-        print('\x1b[0;30;47m' + f'Turno : {nombre_jugador}' + '\x1b[0m' + f" ({jugador['cpu']})", end=' --> Cartas: ')
-
-    # muestro las cartas asignadas al jugador
-    mostrar_cartas_jugada(nombre_jugador, config_partida)
-
-    # Muestro por pantalla si el jugador gana CON LAS CARTAS INICIALES
-    mostrar_blackjack_o_se_paso(jugador)
-
-    # Desarrollo la jugada del cpu o del humano
-    if suma_cartas(jugador) < 21:
-        desarrollo_jugada(jugador, config_partida, maso)
-
-    return
-
-
-# FRONTEND *
-def desarrollo_jugada(jugador, config_partida, maso):
-    """
-    Funcion que segun la opcion del jugador, le entrega cartas, siempre y cuando la suma de sus cartas sea menor a 21
-    :param jugador: dict la configuracion del jugador
-    :param config_partida: list con la configuracion de la partida
-    :param maso: list maso listo para jugar
-    :return: None
-    """
-
-    # Ciclo que desarrolla el juego mientras las cartas del jugador sumen menos de 21
-    while suma_cartas(jugador) < 21:
-        # Asigno a la variable opcion la decicion tomada por el cpu arriesgado
-        if jugador['cpu'] == 'HUMANO':
-            opcion = menu_jugador_humano()
-        else:
-            opcion = opcion_segun_cpu(jugador['nombre'], config_partida)
-            # Encabezado que muestra la decicion del cpu
-            print('\nCPU decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
-
-        if opcion == "PLANTARME":  # -----> Se sale del ciclo sin haber igualado o superado los 21 puntos.
-            # Muetro por pantalla si el jugador gana o pierde
-            mostrar_blackjack_o_se_paso(jugador)
-            print("\n")
-            break
-        else:
-            # Entrego una carta al jugador
-            carta = sacar_carta(maso)
-
-            # Agrego la carta entregada a las cartas del jugador
-            jugador['cartas'].append(carta)
-
-            # Muestro las cartas por pantalla
-            print("Cartas: ", end='')
-            mostrar_cartas_jugada(jugador['nombre'], config_partida)
-
-            # Muetro por pantalla si el jugador gana o pierde
-            mostrar_blackjack_o_se_paso(jugador)
 
 
 # FRONTEND *
@@ -381,3 +223,199 @@ def cierre_juego(config_partida, lista_ganadores):
         opcion = "FIN DE JUEGO"
 
     return opcion
+
+
+# FRONTEND *
+def mostrar_tabla_al_cargar_partida(config_partida, lista_ganadores, lista_perdedores):
+    """
+    Funcion que al cargar una partida y existir algun ganador, o solo estar la banca como unico jugador, muestra la tabla
+    :param config_partida: list con la configuracion de la partida cargada
+    :param lista_ganadores: list con los jugadores que superan el saldo ganador
+    :param lista_perdedores: list con los jugadores que no tienen saldo suficiente para jugar
+    :return: None
+    """
+    if len(lista_ganadores) != 0 or len(config_partida) == 1:
+        mostrar_tabla(config_partida, lista_perdedores, lista_ganadores)
+        print("\x1b[0;37;31m Esta partida está FINALIZADA \x1b[0m")
+        exit()
+
+    return None
+
+
+# ------------------------------------------------------------------
+# FUNCIONES QUE MUESTRAN POR PANTALLA EL DESARROLLO DEL JUEGO !!!TIENEN PARTICIPACION USUARIO¡¡¡
+
+# FRONTEND *
+def menu_inicial():
+    """
+    Funcion que muestra un menu y permite decidir si se inicia un juego nuevo o se carga una partida
+    Emplea el metodo comprobacion_de_fichero para saber si partidas.txt tiene alguna partida para ser cargada
+    :return: int con la opcion seleccionada
+    """
+    indicador = comprobacion_fichero()
+
+    # no existen partidas grabadas
+    if indicador == "VACIO":
+        print("No existen partidas anteriores!!! \n")
+        resultado = "Juego Nuevo"
+
+    # si existe partidas grabadas
+    else:
+        print("Seleccione la opcion deseada: ")
+        print("""
+                \x1b[0;31;23m 1-\x1b[0m Cargar Partida
+                \x1b[0;31;23m 2-\x1b[0m Juego Nuevo
+                """)
+
+        # Valida el ingreso por teclado
+        opcion = validacion_tipo_1_2()
+
+        # Modifico la variable resultado para ser retornada
+        if opcion == 1:
+            resultado = "Cargar Partida"
+        else:
+            resultado = "Juego Nuevo"
+
+    return resultado
+
+
+# FRONTEND *
+def menu_cargar_partida():
+    """
+    Función que permite extraer el nombre del fichero desde partidas.txt para cargar la partida
+    :return: str con el nombre del archivo
+    """
+    # Creo una lista con las partidas guardas
+    fichero = open("./blackjack/partidas.txt", "r")
+    lista = fichero.readlines()
+    fichero.close()
+
+    print("Las partidas guardadas son:")
+
+    # El contador es usado para numerar las partidas al momento de imprimirlas por pantalla y que permita al usuario
+    # elegir una opción despues
+
+    contador = 0
+    for partida in lista:
+        print('\x1b[0;31;23m' + f'{contador + 1}-', partida + '\x1b[0m')
+        contador = contador + 1
+    print("\n")
+
+    # Valido el ingreso por teclado
+    opcion = validacion_tipo_1_contador(contador)
+
+    # Guardo el nombre del archivo como un str en la variable y elimino caracteres especiales del extremo derecho
+    nombre_fichero = str(lista[opcion - 1]).rstrip()
+
+    return nombre_fichero
+
+
+# FRONTEND *
+def menu_jugador_humano():
+    """
+    Funcion que muestra el menu de juego al jugador.
+    :return: Opcion
+    """
+
+    print("""
+    \x1b[0;31;23m 1-\x1b[0m Pedir carta
+    \x1b[0;31;23m 2-\x1b[0m Plantarme 
+    """)
+
+    # Valido el ingreso por teclado
+    opcion = validacion_tipo_1_2()
+
+    # Modifico la variable opcion para ser retornada de acuerdo a la opcion elegida por el usuario
+    if opcion == 1:
+        opcion = "PEDIR CARTA"
+    else:
+        opcion = "PLANTARME"
+
+    return opcion
+
+
+# FRONTEND *
+def mostrar_jugada(nombre_jugador, config_partida, maso):
+    """
+        Funcion que muestra la situacion inicial del jugador y luego llama a otra funcion para desarrollar el juego
+        :param nombre_jugador: str con el nombre del jugador
+        :param config_partida: list con la configuracion del juego
+        :param maso: list con las cartas del maso que se están jugando
+        :return:
+        """
+    # Con el nombre del jugador genero el dict con la informacion del jugador
+    jugador = retorno_jugador(nombre_jugador, config_partida)
+
+    # Encabezado con el NOMBRE, MODO DE JUEGO Y las CARTAS asignadas
+    if jugador['cpu'] == 'HUMANO':
+        print('\x1b[0;30;47m' + f'Turno : {nombre_jugador}' + '\x1b[0m', end=' --> Cartas: ')
+    else:
+        print('\x1b[0;30;47m' + f'Turno : {nombre_jugador}' + '\x1b[0m' + f" ({jugador['cpu']})", end=' --> Cartas: ')
+
+    # muestro las cartas asignadas al jugador
+    mostrar_cartas_jugada(nombre_jugador, config_partida)
+
+    # Muestro por pantalla si el jugador gana CON LAS CARTAS INICIALES
+    mostrar_blackjack_o_se_paso(jugador)
+
+    # Desarrollo la jugada del cpu o del humano
+    if suma_cartas(jugador) < 21:
+        desarrollo_jugada(jugador, config_partida, maso)
+
+    return
+
+
+# FRONTEND *
+def desarrollo_jugada(jugador, config_partida, maso):
+    """
+    Funcion que segun la opcion del jugador, le entrega cartas, siempre y cuando la suma de sus cartas sea menor a 21
+    :param jugador: dict la configuracion del jugador
+    :param config_partida: list con la configuracion de la partida
+    :param maso: list maso listo para jugar
+    :return: None
+    """
+
+    # Ciclo que desarrolla el juego mientras las cartas del jugador sumen menos de 21
+    while suma_cartas(jugador) < 21:
+        # Asigno a la variable opcion la decicion tomada por el cpu arriesgado
+        if jugador['cpu'] == 'HUMANO':
+            opcion = menu_jugador_humano()
+        else:
+            opcion = opcion_segun_cpu(jugador['nombre'], config_partida)
+            # Encabezado que muestra la decicion del cpu
+            print('\nCPU decide--> ' + '\x1b[0;33;33m' + f'{opcion}' + '\x1b[0m')
+
+        if opcion == "PLANTARME":  # -----> Se sale del ciclo sin haber igualado o superado los 21 puntos.
+            # Muetro por pantalla si el jugador gana o pierde
+            mostrar_blackjack_o_se_paso(jugador)
+            print("\n")
+            break
+        else:
+            # Entrego una carta al jugador
+            carta = sacar_carta(maso)
+
+            # Agrego la carta entregada a las cartas del jugador
+            jugador['cartas'].append(carta)
+
+            # Muestro las cartas por pantalla
+            print("Cartas: ", end='')
+            mostrar_cartas_jugada(jugador['nombre'], config_partida)
+
+            # Muetro por pantalla si el jugador gana o pierde
+            mostrar_blackjack_o_se_paso(jugador)
+
+
+# FRONTEND *
+def ciclo_juego_sin_banca(config_partida, maso_de_juego):
+    """
+    Funcion que lleva a cabo el ciclo de juego de todos los jugadores menos la banca
+    :param config_partida: list con la configuracion de la partida
+    :param maso_de_juego: list con las barajas que quedan despues de repartir
+    :return: None
+    """
+    for jugadores in config_partida:
+        if jugadores['nombre'] != "BANCA":
+            mostrar_jugada(jugadores['nombre'], config_partida, maso_de_juego)
+            if jugadores['nombre'] != "HUMANO":
+                logica.pause()
+            print("-" * 50 + "\n")

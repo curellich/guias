@@ -152,6 +152,11 @@ def sobreescribir_archivo_partida(nombre_archivo, config_partida, lista_perdedor
 
 # BACKEND
 def guardar_nombre_en_archivo(nombre_de_archivo):
+    """
+    Funcion que guarda el nombre de un fichero dentro de un fichero
+    :param nombre_de_archivo: str con el nombre del fichero a ser guardado
+    :return:
+    """
     fichero = open("./blackjack/partidas.txt", "a")
     fichero.write(nombre_de_archivo + "\n")
     fichero.close()
