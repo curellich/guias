@@ -9,19 +9,6 @@ def suma_cartas(jugador):
     :param jugador: dict con las informacion del jugador
     :return: int con la suma de las cartas
 
-    Testing
-    >>> jugador = {'cartas': [{'valor': 4, 'palo': "pica"},{'valor': "K", 'palo': "diamante" }]} # (4 + k) = 14
-    >>> suma_cartas(jugador)
-    14
-    >>> jugador = {'cartas': [{'valor': "A", 'palo': "pica"},{'valor': "A", 'palo': "diamante" }]} # (A + A) = 12
-    >>> suma_cartas(jugador)
-    12
-    >>> jugador = {'cartas': [{'valor': "A", 'palo': "pica"},{'valor': "K", 'palo': "diamante" },{'valor': "J", 'palo': "diamante" }]}
-    >>> suma_cartas(jugador)
-    21
-    >>> jugador = {'cartas': [{'valor': "K", 'palo': "pica"},{'valor': "A", 'palo': "diamante" }]} # (K + A) = 21
-    >>> suma_cartas(jugador)
-    20
     """
     suma_cartas_numericas = 0
     suma_cartas_de_la_corte = 0
@@ -183,9 +170,10 @@ def mayor_suma(config_partida):
     """
     mayor = 0  # siempre es la banca
 
+    # Busco la mayor suma pero menor o igual a 21
     for jugadores in config_partida:
         suma = suma_cartas(jugadores)
-        if mayor < suma < 22:
+        if mayor < suma <= 21:
             mayor = suma
 
     return mayor
@@ -239,7 +227,7 @@ def actualizacion_saldos(config_partida):
     try:
         premio = pozo / numero_ganadores
 
-    except:
+    except ZeroDivisionError:
         premio = 0
 
     for jugadores in config_partida:
@@ -315,6 +303,7 @@ def analisis_continuidad_juego(config_partida, lista_ganadores):
     """
     Funcion que decide si finaliza el juego porque se alcanzo el saldo maximo o porque los jugadores no tienen saldo
     :param config_partida: list con la configuracion del juego
+    :param lista_ganadores: list con los jugadores que superen el saldo ganador
     :return: str "FIN DE JUEGO" o "PUEDE CONTINUAR"
     """
     # Averiguo si solo queda la banca porque el resto tiene saldo cero
@@ -335,8 +324,3 @@ def pause():
     :return:
     """
     input()
-
-
-import doctest
-
-doctest.testmod()

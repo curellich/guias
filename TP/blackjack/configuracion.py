@@ -37,7 +37,7 @@ def config_juego():
             if cant_jugadores < 1 or cant_jugadores > CANT_MAX_JUGADORES:
                 raise ValueError()
             break
-        except:
+        except ValueError:
             print(f"El numero de jugadores admitidos va \x1b[0;31;23m desde 1 hasta {CANT_MAX_JUGADORES}\x1b[0m")
 
     # Valido el ingreso por teclado de la cantidad de barajas
@@ -48,7 +48,7 @@ def config_juego():
             if cant_barajas < 1 or cant_barajas > CANT_MAX_BARAJAS:
                 raise ValueError()
             break
-        except:
+        except ValueError:
             print(f"El numero de barajas admitidas va \x1b[0;31;23m desde 1 hasta {CANT_MAX_BARAJAS} \x1b[0m")
 
     # Valido el ingreso por teclado del modo de juego
@@ -59,7 +59,7 @@ def config_juego():
             if modo_juego < 1 or modo_juego > 2:
                 raise ValueError()
             break
-        except:
+        except ValueError:
             print('El numero debe ser \x1b[0;31;23m "1" \x1b[0m o \x1b[0;31;23m "2" \x1b[0m')
 
     # Valido el ingreso por teclado del juego de la banca
@@ -71,7 +71,7 @@ def config_juego():
             if juego_banca < 1 or juego_banca > 3:
                 raise ValueError()
             break
-        except:
+        except ValueError:
             print("El numero admitido  \x1b[0;31;23m va desde 1 hasta 3 \x1b[0m ")
 
     # Agrego los valores ingresados por teclado al diccionario config_juego
@@ -100,11 +100,10 @@ def config_jugador():
     :return: dict con la configuracion del jugador
     """
     # Este es el diccionario tipo que contiene la informacion de un jugador
-    conf_jugador = {'numero': None, 'nombre': None, 'cpu': None, 'estado': "EN JUEGO", 'saldo': SALDO_INCIAL,
-                    'posicion': None, 'cartas': None}
+    conf_jugador = {'numero': None, 'nombre': input('Ingrese el nombre del jugador: ').upper(), 'cpu': None,
+                    'estado': "EN JUEGO", 'saldo': SALDO_INCIAL, 'posicion': None, 'cartas': None}
 
     # Se ingresa el nombre del jugador
-    conf_jugador['nombre'] = input('Ingrese el nombre del jugador: ').upper()
 
     # Se ingrese el modo de juego del jugador
     while True:
@@ -115,7 +114,7 @@ def config_jugador():
             if cpu < 1 or cpu > 4:
                 raise ValueError()
             break
-        except:
+        except ValueError:
             print('El numero admitito va \x1b[0;31;23m desde 1 hasta 4 \x1b[0m')
 
     if cpu == 1:
@@ -131,17 +130,17 @@ def config_jugador():
 
 
 # BACKEND
-def config_partida_inicial(config_juego):
+def config_partida_inicial(conf_juego):
     """
     Funcion para crear un lista con la configuracion inicial del juego, jugadores, modos, barajas, etc
-    :param config_juego: dict con la configuracion inicial del juego (USAR LA FUNCION conf_juego que crea un dict)
+    :param conf_juego: dict con la configuracion inicial del juego (USAR LA FUNCION conf_juego que crea un dict)
     :return: list con la configuracion del partida
     """
     conf_partida = []
-    cant_jugadores = config_juego['cant_jugadores']
+    cant_jugadores = conf_juego['cant_jugadores']
 
     # La primera linea de la lista siempre es el diccionario de la configuracion del juego
-    conf_partida.append(config_juego)
+    conf_partida.append(conf_juego)
 
     # A continuacion se agregan a la lista los diccionarios de la configuracion de cada jugador
     for i in range(1, cant_jugadores + 1):
@@ -178,6 +177,8 @@ def sobreescribir_archivo_partida(nombre_archivo, config_partida, lista_perdedor
     """
     Convierte cada elemento de la lista a str y sobreescribe el archivo con la configuracion  de la partida
     :param nombre_archivo: str con el nombre del archivo a sobreescribir
+    :param lista_perdedores: list con los jugadores que no tienen el saldo suficiente para jugar
+    :param lista_ganadores: list con los jugadores que superaron el saldo maximo de juego
     :param config_partida: list con los elementos para guardar en el archivo. (conf_juego y conf_jugadores)
     :return: None
     """

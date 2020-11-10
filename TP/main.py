@@ -3,7 +3,6 @@ from blackjack import interfaces
 from blackjack import cartas
 from blackjack import logica
 
-
 # Cartel de bienvenida
 interfaces.cartel_bienvenida()
 
@@ -159,7 +158,3 @@ while control != "FIN DE JUEGO":
             interfaces.mostrar_cartas_mesa(config_partida)
 
             # reinicia la ronda
-
-
-
-
