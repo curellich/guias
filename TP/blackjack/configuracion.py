@@ -34,6 +34,7 @@ def config_juego():
 
     cant_barajas = blackjack.validaciones.validacion_canttidad_barajas()
 
+    print("Ingrese el modo de juego: \x1b[0;31;23m 1-\x1b[0m Facil \x1b[0;31;23m 2-\x1b[0m Dificil")
     modo_juego = blackjack.validaciones.validacion_tipo_1_2()
 
     juego_banca = blackjack.validaciones.validacion_tipo_1_3()
@@ -52,7 +53,7 @@ def config_juego():
     elif juego_banca == 2:
         conf_juego['cpu'] = "prudente".upper()
     else:
-        juego_banca['cpu'] = "inteligente".upper()
+        conf_juego['cpu'] = "inteligente".upper()
 
     return conf_juego
 

@@ -48,7 +48,7 @@ def validacion_tipo_1_2():
     while True:
         try:
             ingreso = int(input(
-                'Ingrese el modo de juego: ' + '\x1b[0;31;23m' + '1-' + '\x1b[0m' + ' Facil ' + '\x1b[0;31;23m' + '2-' + '\x1b[0m' + ' Dificil: '))
+                'Ingrese la opcion ' + '\x1b[0;31;23m' + '(1-2)' + '\x1b[0m: '))
             if ingreso < 1 or ingreso > 2:
                 raise ValueError()
             break
@@ -115,4 +115,3 @@ def validacion_tipo_1_contador(contador):
             print(f"La opción no es válida. Intente nuevamente")
 
     return opcion
-
