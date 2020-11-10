@@ -1,6 +1,6 @@
 from datetime import datetime
-from blackjack.constantes import SALDO_INCIAL, CANT_MAX_JUGADORES, CANT_MAX_BARAJAS
-
+import blackjack.validaciones
+from blackjack.constantes import SALDO_INCIAL
 
 import ast
 
@@ -20,59 +20,23 @@ del fichero donde se guardó la partida, sino que pueda elegirlo desde la misma.
 """
 
 
-# FRONTEND (participa el usuario)
+# FRONTEND (participa el usuario) *
 def config_juego():
     """
     Funcion para que el usuario configure el juego, cant jugadores, barajas y modo de juego, juego de la banca.
     :return: dict con la configuracion del modo de juego.
     """
     conf_juego = {'nombre': "BANCA", 'cant_jugadores': None, 'cant_barajas': None, 'modo_juego': None,
-                  'juego_banca': None, 'estado': None, 'saldo': 1000000, 'cartas': None}
+                  'cpu': None, 'estado': None, 'saldo': 1000000, 'cartas': None}
 
-    # valido el ingreso por teclado de la cantidad de jugadores
-    while True:
-        try:
-            cant_jugadores = int(input(
-                'Ingrese la cantidad de jugadores ' + '\x1b[0;31;23m' + f'(1 - {CANT_MAX_JUGADORES})' + '\x1b[0m' + ':'))
-            if cant_jugadores < 1 or cant_jugadores > CANT_MAX_JUGADORES:
-                raise ValueError()
-            break
-        except ValueError:
-            print(f"El numero de jugadores admitidos va \x1b[0;31;23m desde 1 hasta {CANT_MAX_JUGADORES}\x1b[0m")
+    # Valido y asigno valores ingresados por teclado
+    cant_jugadores = blackjack.validaciones.validacion_cantidad_jugadores()
 
-    # Valido el ingreso por teclado de la cantidad de barajas
-    while True:
-        try:
-            cant_barajas = int(input(
-                'Ingrese la cantidad de barajas ' + '\x1b[0;31;23m' + f'(1 - {CANT_MAX_BARAJAS})' + '\x1b[0m' + ':'))
-            if cant_barajas < 1 or cant_barajas > CANT_MAX_BARAJAS:
-                raise ValueError()
-            break
-        except ValueError:
-            print(f"El numero de barajas admitidas va \x1b[0;31;23m desde 1 hasta {CANT_MAX_BARAJAS} \x1b[0m")
+    cant_barajas = blackjack.validaciones.validacion_canttidad_barajas()
 
-    # Valido el ingreso por teclado del modo de juego
-    while True:
-        try:
-            modo_juego = int(input(
-                'Ingrese el modo de juego: ' + '\x1b[0;31;23m' + '1-' + '\x1b[0m' + ' Facil ' + '\x1b[0;31;23m' + '2-' + '\x1b[0m' + ' Dificil: '))
-            if modo_juego < 1 or modo_juego > 2:
-                raise ValueError()
-            break
-        except ValueError:
-            print('El numero debe ser \x1b[0;31;23m "1" \x1b[0m o \x1b[0;31;23m "2" \x1b[0m')
+    modo_juego = blackjack.validaciones.validacion_tipo_1_2()
 
-    # Valido el ingreso por teclado del juego de la banca
-    while True:
-        try:
-            juego_banca = int(input(
-                "Ingrese el modo de juego de la banca: \x1b[0;31;23m 1- \x1b[0m Agresiva \x1b[0;31;23m 2- \x1b[0m "
-                "Prudente \x1b[0;31;23m 3- \x1b[0m Inteligente: "))
-            if juego_banca < 1 or juego_banca > 3:
-                raise ValueError()
-            break
-        except ValueError:
-            print("El numero admitido  \x1b[0;31;23m va desde 1 hasta 3 \x1b[0m ")
+    juego_banca = blackjack.validaciones.validacion_tipo_1_3()
 
     # Agrego los valores ingresados por teclado al diccionario config_juego
 
@@ -83,12 +47,12 @@ def config_juego():
     else:
         conf_juego['modo_juego'] = "dificil".upper()
 
-    if modo_juego == 1:
-        conf_juego['juego_banca'] = "arriesgado".upper()
-    elif modo_juego == 2:
-        conf_juego['juego_banca'] = "prudente".upper()
+    if juego_banca == 1:
+        conf_juego['cpu'] = "arriesgado".upper()
+    elif juego_banca == 2:
+        conf_juego['cpu'] = "prudente".upper()
     else:
-        conf_juego['juego_banca'] = "inteligente".upper()
+        juego_banca['cpu'] = "inteligente".upper()
 
     return conf_juego
 
@@ -103,19 +67,8 @@ def config_jugador():
     conf_jugador = {'numero': None, 'nombre': input('Ingrese el nombre del jugador: ').upper(), 'cpu': None,
                     'estado': "EN JUEGO", 'saldo': SALDO_INCIAL, 'posicion': None, 'cartas': None}
 
-    # Se ingresa el nombre del jugador
-
-    # Se ingrese el modo de juego del jugador
-    while True:
-        try:
-            cpu = int(
-                input(
-                    'Ingrese el modo de juego: \x1b[0;31;23m 1- \x1b[0m CPU-Arriesgado, \x1b[0;31;23m 2- \x1b[0m CPU-Prudente, \x1b[0;31;23m 3- \x1b[0m Humano, \x1b[0;31;23m 4- \x1b[0m Inteligente: '))
-            if cpu < 1 or cpu > 4:
-                raise ValueError()
-            break
-        except ValueError:
-            print('El numero admitito va \x1b[0;31;23m desde 1 hasta 4 \x1b[0m')
+    # Valido y asigno valores
+    cpu = blackjack.validaciones.validacion_tipo_1_4()
 
     if cpu == 1:
         conf_jugador['cpu'] = "arriesgado".upper()

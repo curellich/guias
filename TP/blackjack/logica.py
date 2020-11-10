@@ -318,6 +318,46 @@ def analisis_continuidad_juego(config_partida, lista_ganadores):
 
 
 # BACKEND *
+def retorno_jugador(nombre_jugador, config_partida):
+    """
+    Funcion que asigna busca con el nombre del jugador el diccionario que le corresponde y lo asigna a una variable
+    :param nombre_jugador: str con el nombre del jugador
+    :param config_partida: list con la configuracion de toda la partida
+    :return: dict con la configuracion/informacion del jugador
+    """
+    # con el nombre del jugador busco el dict que corresponde al jugador y lo asigno
+    jugador = {}
+    for jugadores in config_partida:
+        if nombre_jugador == jugadores['nombre']:
+            jugador = jugadores
+    return jugador
+
+
+# BACKEND *
+def opcion_segun_cpu(nombre_jugador, config_partida):
+    """
+    Funcion que retorna la opcion elegida segun el cpu del jugador
+    :param nombre_jugador: str con el nombre del jugador
+    :param config_partida: list con la configuracion de la partida
+    :return: str "PLANTARME" o "PEDIR CARTA"
+    """
+
+    jugador = retorno_jugador(nombre_jugador, config_partida)
+    opcion = ""
+    # DESARROLLO DEL JUEGO PARA EL CPU
+    if jugador['cpu'] == 'ARRIESGADO':
+        opcion = cpu_arriesgado(jugador['nombre'], config_partida)
+
+    elif jugador['cpu'] == 'PRUDENTE':
+        opcion = cpu_prudente(jugador['nombre'], config_partida)
+
+    elif jugador['cpu'] == 'INTELIGENTE':
+        opcion = cpu_inteligente(jugador['nombre'], config_partida)
+
+    return opcion
+
+
+# BACKEND *
 def pause():
     """
     Funcion que solo sirve para hacer una pausa y que el usuario aprete cualquier tecla para continuar

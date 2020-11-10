@@ -91,16 +91,16 @@ while control != "FIN DE JUEGO":
     for jugadores in config_partida:
         if jugadores['nombre'] != "BANCA":
             if jugadores['cpu'] == "HUMANO":
-                interfaces.jugada_humano(jugadores['nombre'], config_partida, maso_de_juego)
+                interfaces.mostrar_jugada(jugadores['nombre'], config_partida, maso_de_juego)
                 logica.pause()
                 print("-" * 50 + "\n")
             else:
-                interfaces.mostrar_jugada_cpu(jugadores['nombre'], config_partida, maso_de_juego)
+                interfaces.mostrar_jugada(jugadores['nombre'], config_partida, maso_de_juego)
                 logica.pause()
                 print("-" * 50 + "\n")
 
     # Juega la BANCA
-    interfaces.mostrar_jugada_banca("BANCA", config_partida, maso_de_juego)
+    interfaces.mostrar_jugada("BANCA", config_partida, maso_de_juego)
     logica.pause()
 
     # Analizo las cartas que salieron en la mesa y acutalizo los estados a GANA o PIERDE
